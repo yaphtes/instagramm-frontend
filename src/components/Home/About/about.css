@@ -9,7 +9,7 @@
 }
 
 .about .avatar {
-  background-color: bisque;
+  background-color: rgb(219, 219, 219);
   border-radius: 50%;
   width: 152px;
   height: 152px;
@@ -62,3 +62,10 @@
   font: 700 17px/24px var(--main-font);
   font-weight: 700;
 }
+
+.info a {
+  color: #3d659d;
+  font-weight: 400;
+}
+
+.info a:hover { text-decoration: none; }
