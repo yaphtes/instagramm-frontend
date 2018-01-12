@@ -1,0 +1,1 @@
+export const rest = 'http://localhost:3000';

@@ -1,0 +1,64 @@
+.about {
+  padding-top: 54px;
+  padding-bottom: 54px;
+  background-color: var(--main-color);
+}
+
+.about .wrap {
+  display: flex;
+}
+
+.about .avatar {
+  background-color: bisque;
+  border-radius: 50%;
+  width: 152px;
+  height: 152px;
+  flex-shrink: 0;
+  margin-right: 100px;
+}
+
+.info .username {
+  margin-bottom: 23px;
+  display: flex;
+  align-items: center;
+}
+
+.info .username span {
+  font: 400 35px var(--main-font);
+  color: #4b4f6d;
+  margin-right: 22px;
+}
+
+.info .username button {
+  padding: 0;
+  width: 79px;
+  height: 31px;
+  border-radius: 3px;
+  border: 1px solid var(--accent-color);
+  font: 700 15px/31px var(--main-font);
+  color: var(--accent-color);
+  text-transform: uppercase;
+  text-align: center;
+  background-color: transparent;
+  outline: none;
+  display: inline-block;
+}
+
+.info .username button:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.info .username button:active { transform: translateY(1px); }
+
+.info .text {
+  color: #4b4f60;
+  margin-bottom: 25px;
+  font: 400 17px/24px var(--main-font);
+  text-align: justify;
+}
+
+.info .text span {
+  font: 700 17px/24px var(--main-font);
+  font-weight: 700;
+}

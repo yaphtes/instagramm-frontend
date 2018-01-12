@@ -1,0 +1,65 @@
+.header {
+  height: 75px;
+  background-color: #fff;
+  border-bottom: 1px solid #edeeee;
+}
+
+.header .wrap {
+  height: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .logo img { vertical-align: middle; }
+
+.header .search input {
+  width: 216px;
+  height: 28px;
+  border-radius: 14px;
+  border: 1px solid #edeeee;
+  background-color: var(--main-color);
+  outline: none;
+  text-align: center;
+  background-image: url("./search-icon.png");
+  background-repeat: no-repeat;
+  background-position-x: calc(50% - 30px);
+  background-position-y: calc(50%);
+  padding-left: 27px;
+  padding-right: 20px;
+  font: 300 15px/28px var(--main-font);
+  color: #84878a;
+}
+
+.header .search input:focus {
+  background-position-x: 12px;
+  text-align: left;
+  background-color: #fff;
+}
+
+.header .login-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header .login-buttons button {
+  padding: 0;
+  border: 1px solid var(--accent-color);
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 28px;
+  font: 700 16px/26px var(--main-font);
+  color: var(--accent-color);
+  border-radius: 14px;
+  background-color: transparent;
+  outline: none;
+}
+
+.header .login-buttons button:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.header .login-buttons button:active { transform: translateY(1px); }
+
+.header .login-buttons button:first-child { margin-right: 20px; }
