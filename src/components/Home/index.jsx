@@ -1,8 +1,6 @@
 import React from 'react';
-import Header from '../Header';
 import About from './About';
 import Posts from './Posts';
-import Footer from '../Footer';
 
 import post1 from './Posts/assets/post1.png';
 import post2 from './Posts/assets/post2.png';
@@ -20,7 +18,6 @@ export default function Home() {
 
   return (
     <div className="home">
-      <Header />
       <About
         username={username}
         name={name}
@@ -28,7 +25,6 @@ export default function Home() {
         text={text}
       />
       <Posts posts={posts} />
-      <Footer />
     </div>
   );
 }

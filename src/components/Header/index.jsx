@@ -1,15 +1,16 @@
 import React from 'react';
 import logo from './assets/logo.png';
+import { Link } from 'react-router-dom';
 import './assets/header.css';
 
 export default function Header() {
   return (
     <header className="header">
       <div className="wrap">
-        <div className="logo"><img src={logo} alt="logo"/></div>
+        <Link to="/" className="logo"><img src={logo} alt="logo"/></Link>
         <div className="search"><input placeholder="Search" type="text"/></div>
         <div className="login-buttons">
-          <button>Registration</button>
+          <Link to="/registration">Registration</Link>
           <button>Login</button>
         </div>
       </div>

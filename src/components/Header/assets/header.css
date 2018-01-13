@@ -11,6 +11,8 @@
   align-items: center;
 }
 
+
+.header .logo { cursor: default; }
 .header .logo img { vertical-align: middle; }
 
 .header .search input {
@@ -42,7 +44,8 @@
   justify-content: space-between;
 }
 
-.header .login-buttons button {
+.header .login-buttons button,
+.header .login-buttons a {
   padding: 0;
   border: 1px solid var(--accent-color);
   padding-left: 20px;
@@ -53,13 +56,17 @@
   border-radius: 14px;
   background-color: transparent;
   outline: none;
+  text-decoration: none;
+  cursor: default;
 }
 
-.header .login-buttons button:hover {
+.header .login-buttons button:hover,
+.header .login-buttons a:hover {
   background-color: var(--accent-color);
   color: #fff;
 }
 
-.header .login-buttons button:active { transform: translateY(1px); }
+.header .login-buttons button:active,
+.header .login-buttons a:active { transform: translateY(1px); }
 
-.header .login-buttons button:first-child { margin-right: 20px; }
+.header .login-buttons a:first-child { margin-right: 20px; }
