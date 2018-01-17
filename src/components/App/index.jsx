@@ -4,10 +4,11 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import PrivateRoute from '../PrivateRoute';
 import Home from '../Home';
-import Registration from '../Registration';
 import Header from '../Header';
 import Footer from '../Footer';
+import { Registration, Login } from '../Login';
 import './assets/app.css';
 
 export default function App() {
@@ -16,8 +17,9 @@ export default function App() {
       <div className="app">
         <Header />
         <Switch>
-          <Route exact={true} path="/" component={Home} />
+          <PrivateRoute exact path="/" component={Home} />
           <Route path="/registration" component={Registration} />
+          <Route path="/login" component={Login} />
         </Switch>
         <Footer />
       </div>
