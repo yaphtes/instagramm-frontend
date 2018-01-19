@@ -42,6 +42,30 @@
 .header .login-buttons {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.header .login-buttons .profile {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 20px;
+  display: flex;
+}
+
+.header .login-buttons .profile:hover { background-color: var(--accent-color); }
+.header .login-buttons .profile:active { transform: translateY(1px); }
+
+.header .login-buttons .profile svg {
+  box-sizing: content-box;
+  margin: auto;
+  fill: #4090db;
+  border: 5px solid transparent;
+}
+
+.header .login-buttons .profile svg:hover {
+  fill: #fff;
 }
 
 .header .login-buttons button,
@@ -68,5 +92,4 @@
 
 .header .login-buttons button:active,
 .header .login-buttons a:active { transform: translateY(1px); }
-
 .header .login-buttons a:first-child { margin-right: 20px; }

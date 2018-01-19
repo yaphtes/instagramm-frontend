@@ -47,10 +47,8 @@ class Registration extends Component {
   }
 
   render() {
-    const isAuthenticated = localStorage.getItem('jwt');
-
-    if (isAuthenticated) {
-      return <Redirect to="/" />
+    if (localStorage.getItem('jwt')) {
+      return <Redirect to="/" />;
     }
 
     return (
@@ -80,4 +78,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(({ user }) => ({ user }), mapDispatchToProps)(Registration);
+export default connect(null, mapDispatchToProps)(Registration);

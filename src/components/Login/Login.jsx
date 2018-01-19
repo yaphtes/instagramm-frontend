@@ -31,17 +31,14 @@ class Login extends Component {
   }
 
   render() {
-    const isAuthenticated = localStorage.getItem('jwt');
-
-    if (isAuthenticated) {
-      return <Redirect to="/" />
+    if (localStorage.getItem('jwt')) {
+      return <Redirect to="/" />;
     }
-
 
     return (
       <div className="login">
         <div className="wrap">
-          <h3>Sign in</h3>
+          <h3>Log in</h3>
           <form ref="form" onSubmit={this.handleLogin}>
             <input onChange={this.handleChangeField} ref="usernameElem" type="text" placeholder="username" data-name="username" required tabIndex="1" />
             <input onChange={this.handleChangeField} type="password" placeholder="password" data-name="password" required tabIndex="2" />
@@ -61,4 +58,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(({ user }) => ({ user }), mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

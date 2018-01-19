@@ -1,4 +1,5 @@
 import { apply, put } from 'redux-saga/effects';
+import { replace } from 'react-router-redux';
 import api from '../services/api';
 import {
   POST_USER_SUCCEEDED,
@@ -13,8 +14,9 @@ import {
 export function* postUser({ payload }) {
   try {
     const user = yield apply(api, api.postUser, [payload]);
-    yield apply(localStorage, localStorage.setItem, ['jwt', user.hash]);
+    localStorage.setItem('jwt', user.hash);
     yield put({ type: POST_USER_SUCCEEDED, payload: user });
+    yield put(replace('/'));
   } catch(err) {
     yield put({ type: POST_USER_FAILED, payload: err });
   }
@@ -32,8 +34,9 @@ export function* getUserByToken({ payload }) {
 export function* getUser({ payload }) {
   try {
     const user = yield apply(api, api.getUser, [payload]);
-    yield apply(localStorage, localStorage.setItem, ['jwt', user.hash]);
+    localStorage.setItem('jwt', user.hash);
     yield put({ type: GET_USER_SUCCEEDED, payload: user });
+    yield put(replace('/'));
   } catch(err) {
     yield put({ type: GET_USER_FAILED, payload: err });
   }
