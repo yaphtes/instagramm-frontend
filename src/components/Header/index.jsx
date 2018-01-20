@@ -43,4 +43,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(({ user }) => ({ user }), mapDispatchToProps)(Header));
+export default withRouter(connect(null, mapDispatchToProps)(Header));

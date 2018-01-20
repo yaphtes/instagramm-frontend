@@ -1,43 +1,57 @@
-.login {
+.profile {
+  padding-top: 20px;
   background-color: var(--main-color);
   padding-top: 20px;
-  padding-bottom: 20px;
 }
 
-.login h3 {
+.profile .head {
+  margin: 0;
   text-align: center;
-  font: 700 20px/1em var(--main-font);
+  font: 600 18px/1.5em var(--main-font);
+  margin-bottom: 20px;
   color: var(--accent-color);
 }
 
-.login form {
+.profile .data {
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   align-items: center;
 }
 
-.login form input {
+.profile .data input,
+.profile .data textarea {
   width: 400px;
   margin-bottom: 10px;
   border-radius: 14px;
   border: 1px solid #edeeee;
   font: 300 15px/28px var(--main-font);
+  min-height: 28px;
   color: #848781;
   padding-left: 20px;
   padding-right: 20px;
   outline: none;
+  resize: none;
 }
 
-.login form input::placeholder { opacity: 0.5; }
+.profile .data textarea { line-height: 1.5em; }
+.profile .data input::placeholder,
+.profile .data textarea::placeholder { opacity: 0.5; }
 
-.login form input:focus {
+.profile .data span {
+  width: 400px;
+  padding-left: 20px;
+  font: 300 12px/1.6em var(--main-font);
+  color: #848781;
+  opacity: 0.75;
+}
+
+.profile .data input:focus {
   border:1px solid #7eabda;
   outline: 0;
   box-shadow: 3px 3px 0 #96c3f2, -3px 3px 0 #96c3f2, 3px -3px 0 #96c3f2, -3px -3px 0 #96c3f2;
 }
 
-
-.login form input[type=submit] {
+.profile .data input[type=submit] {
   width: 200px;
   background-color: transparent;
   border-color: var(--accent-color);
@@ -46,8 +60,9 @@
   margin-top: 17px;
 }
 
-.login form input[type=submit]:hover {
+.profile .data input[type=submit]:hover {
   background-color: var(--accent-color);
   color: #fff;
 }
-.login form input[type=submit]:active { transform: translateY(1px); }
+
+.profile .data input[type=submit]:active { transform: translateY(1px); }

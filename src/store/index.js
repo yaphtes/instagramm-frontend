@@ -1,4 +1,3 @@
-import initialState from './initialState';
 import { createStore, applyMiddleware } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
@@ -17,8 +16,7 @@ const middleware = applyMiddleware(
 const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  middleware,
-  initialState
+  middleware
 );
 
 sagaMiddleware.run(rootSaga);

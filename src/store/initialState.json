@@ -1,6 +1,10 @@
 {
   "user": {
     "username": "",
-    "password": ""
+    "password": "",
+    "firstname": "",
+    "lastname": "",
+    "about": "",
+    "avatar": ""
   }
 }

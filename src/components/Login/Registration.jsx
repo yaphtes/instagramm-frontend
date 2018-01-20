@@ -61,7 +61,7 @@ class Registration extends Component {
             <span>letters and numbers, min 6 symbols</span>
             <input onChange={this.handleChangeField.bind(this)} type="password" placeholder="password" data-name="password" required pattern="^[a-zA-Z0-9]{6,}$" tabIndex="2" />
             <span>letters and numbers, min 6 symbols</span>
-            <input onChange={this.handleChangeField.bind(this)} ref="confirmPasswordElem" type="password" placeholder="confirm again" data-name="confirmPassword" required tabIndex="3" />
+            <input onChange={this.handleChangeField.bind(this)} ref="confirmPasswordElem" type="password" placeholder="confirm password" data-name="confirmPassword" required tabIndex="3" />
             <input type="submit" value="submit" tabIndex="4" />
           </form>
         </div>

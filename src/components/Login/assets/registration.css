@@ -36,6 +36,8 @@
   outline: none;
 }
 
+.registration form input::placeholder { opacity: 0.5; }
+
 .registration form input:focus {
   border:1px solid #7eabda;
   outline: 0;

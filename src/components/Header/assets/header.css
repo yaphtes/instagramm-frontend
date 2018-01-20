@@ -45,7 +45,7 @@
   align-items: center;
 }
 
-.header .login-buttons .profile {
+.header .login-buttons .profile-btn {
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -54,17 +54,17 @@
   display: flex;
 }
 
-.header .login-buttons .profile:hover { background-color: var(--accent-color); }
-.header .login-buttons .profile:active { transform: translateY(1px); }
+.header .login-buttons .profile-btn:hover { background-color: var(--accent-color); }
+.header .login-buttons .profile-btn:active { transform: translateY(1px); }
 
-.header .login-buttons .profile svg {
+.header .login-buttons .profile-btn svg {
   box-sizing: content-box;
   margin: auto;
   fill: #4090db;
   border: 5px solid transparent;
 }
 
-.header .login-buttons .profile svg:hover {
+.header .login-buttons .profile-btn svg:hover {
   fill: #fff;
 }
 
