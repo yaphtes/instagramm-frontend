@@ -1,33 +1,44 @@
 import React, { Fragment, Component } from 'react';
-import logo from './assets/logo.png';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { USER_LOGOUTED } from '../../variables';
-import './assets/header.css';
-import ProfileIcon from './assets/ProfileIcon';
+import NavButton from './NavButton';
+import { USER_LOGOUTED, accentColor } from '../../variables';
+import Create from 'material-ui/svg-icons/content/create';
+import Feed from 'material-ui/svg-icons/communication/rss-feed';
+import Account from 'material-ui/svg-icons/action/account-circle';
+import FlatButton from 'material-ui/FlatButton';
+import Home from 'material-ui/svg-icons/action/home';
+import './header.css';
+
 
 class Header extends Component {
   render() {
-    let { handleLogout, history } = this.props;
+    const { handleLogout } = this.props;
     const isAuthenticated = localStorage.getItem('jwt');
   
     return (
       <header className="header">
         <div className="wrap">
-          <Link to="/" className="logo" tabIndex="-1"><img src={logo} alt="logo"/></Link>
-          <div className="search"><input placeholder="Search" type="text"/></div>
-          <div className="login-buttons">
-          {isAuthenticated ?
-            <Fragment>
-              <ProfileIcon onClick={() => history.push('/profile')} />
-              <button onClick={handleLogout}>Log out</button>
-            </Fragment>
-            :
-            <Fragment>
-              <Link to="/registration" tabIndex="-1">Sign up</Link>
-              <Link to="/login" tabIndex="-1">Log in</Link>
-            </Fragment>
-          }
+          <Link to="/" className="logo" tabIndex="-1">Our Thoughts</Link>
+          <div className="search">
+            <input placeholder="Search" type="text"/>
+            <i className="material-icons">search</i>
+          </div>
+          <div className="navigation">
+            {isAuthenticated ?
+                <Fragment>
+                  <NavButton to="/" exact={true} component={Home} />
+                  <NavButton to="/creature" component={Create} />
+                  <NavButton to="/feed" component={Feed} />
+                  <NavButton to="/profile" component={Account} />
+                  <FlatButton labelStyle={{ color: accentColor }} label="Log Out" onClick={handleLogout} />
+                </Fragment>
+                :
+                <Fragment>
+                  <NavButton to="/registration">Sign Up</NavButton>
+                  <NavButton to="/login">Log In</NavButton>
+                </Fragment>
+              }          
           </div>
         </div>
       </header>

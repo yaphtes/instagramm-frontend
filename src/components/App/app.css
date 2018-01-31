@@ -1,0 +1,28 @@
+:root {
+  --main-font: "Roboto", "sans-serif";
+  --main-color: #fafafa;
+  --accent-color: #4090db;
+  --logo-font: "Aurulent Sans Bold Italic", "sans-serif";
+  --main-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  --test-font: 'Sedgwick Ave', cursive;
+}
+
+.wrap {
+  width: 935px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#content {
+  min-height: calc(100vh - 112px);
+  background-color: var(--main-color);
+}
+body { margin: 0; }
+
+* { box-sizing: border-box; }
+
+
+/* font-family: 'Sedgwick Ave', cursive;
+font-family: 'Indie Flower', cursive;
+font-family: 'Kavivanar', cursive;
+font-family: 'Lobster', cursive; */

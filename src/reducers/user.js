@@ -4,7 +4,8 @@ import {
   POST_USER_SUCCEEDED,
   PUT_USER_SUCCEEDED,
   USER_LOGOUTED_SUCCEEDED,
-  PUT_AVATAR_SUCCEEDED
+  PUT_AVATAR_SUCCEEDED,
+  DELETE_AVATAR_SUCCEEDED
 } from '../variables';
 
 import initialState from '../store/initialState';
@@ -27,7 +28,13 @@ export default function user(state = defaultState, action) {
       return {
         ...state,
         avatar: action.payload
-      }
+      };
+
+    case DELETE_AVATAR_SUCCEEDED:
+      return {
+        ...state,
+        avatar: ''
+      };
 
     case USER_LOGOUTED_SUCCEEDED:
       return {};

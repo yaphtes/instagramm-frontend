@@ -1,4 +1,4 @@
-import { apply, put } from 'redux-saga/effects';
+import { apply, put, call } from 'redux-saga/effects';
 import { replace, push } from 'react-router-redux';
 import api from '../services/api';
 import {
@@ -12,13 +12,39 @@ import {
   PUT_USER_SUCCEEDED,
   PUT_USER_FAILED,
   PUT_AVATAR_FAILED,
-  PUT_AVATAR_SUCCEEDED
+  PUT_AVATAR_SUCCEEDED,
+  DELETE_AVATAR_SUCCEEDED,
+  DELETE_AVATAR_FAILED,
+  POST_ARTICLE_SUCCEEDED,
+  POST_ARTICLE_FAILED
 } from '../variables';
 
-export function* putAvatar({ payload }) {
-  const { blob, id } = payload;
+// В ОБРАБОТЧИКАХ ДОБАВИТЬ ПРОВЕРКУ НА 401 статус (редирект с сервака, токен закончился)
+
+
+export function* postArticle({ payload }) {
+  const { id: userId, article } = payload;
+
   try {
-    const { avatar } = yield apply(api, api.putAvatar, [blob, id]);
+    const postedArticle = yield apply(api, api.postArticle, [userId, article]);
+  } catch (err) {
+    yield put({ type: POST_ARTICLE_FAILED, payload: err });
+  }
+}
+
+export function* deleteAvatar({ payload }) {
+  const { id, oldAvatar } = payload;
+  try {
+    yield apply(api, api.deleteAvatar, [id, oldAvatar]);
+    yield put({ type: DELETE_AVATAR_SUCCEEDED });
+  } catch (err) {
+    yield put({ type: DELETE_AVATAR_FAILED, payload: err });
+  }
+}
+
+export function* putAvatar({ payload }) {
+  try {
+    const { avatar } = yield call([api, api.putAvatar], payload);
     yield put({ type: PUT_AVATAR_SUCCEEDED, payload: avatar });
   } catch (err) {
     yield put({ type: PUT_AVATAR_FAILED, payload: err });
@@ -46,6 +72,7 @@ export function* postUser({ payload }) {
   }
 }
 
+// TODO: обработать случай, когда пользователь не найден (заблокирован) на бэке
 export function* getUserByToken({ payload }) {
   try {
     const user = yield apply(api, api.getUserByToken, [payload]);
