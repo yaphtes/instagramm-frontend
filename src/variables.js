@@ -35,5 +35,5 @@ export const server = 'http://localhost:8000';
 
 
 export const accentColor = '#3b8ede';
-export const usernameRegexp = /[a-z]{1,1}[\w]+/;
-export const passwordRegexp = /[a-z0-9]{6,}/;
+export const usernameRegexp = /[a-z]{1,1}[\w]{3,}/;
+export const passwordRegexp = /[a-z0-9]{4,}/;

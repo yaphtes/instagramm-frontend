@@ -13,39 +13,39 @@ class Api {
   }
 
 
-  postArticle(userId, article) {
-    return new Promise((resolve, reject) => {
-      const { title, content, preview, collection } = article;
-      const { headers } = this;
+  // postArticle(userId, article) {
+  //   return new Promise((resolve, reject) => {
+  //     const { title, content, preview, collection } = article;
+  //     const { headers } = this;
 
-      const body = new FormData();
+  //     const body = new FormData();
 
-      body.set('title', title);
-      body.set('content', content);
-      body.set('preview', preview);
+  //     body.set('title', title);
+  //     body.set('content', content);
+  //     body.set('preview', preview);
 
-      for (let file of collection) {
-        body.append('collection', file);
-      };
-      const request = new Request(`${rest}/article`, {
-        method: 'post',
-        headers,
-        body
-      });
+  //     for (let file of collection) {
+  //       body.append('collection', file);
+  //     };
+  //     const request = new Request(`${rest}/article`, {
+  //       method: 'post',
+  //       headers,
+  //       body
+  //     });
 
-      fetch(request)
-    });
-  }
+  //     fetch(request)
+  //   });
+  // }
 
-  deleteAvatar(id, oldAvatar) {
+  deleteAvatar(id, currentAvatar) {
     const { headers } = this;
     this.withJson();
     const request = new Request(`${rest}/avatar`, {
       method: 'delete',
       headers,
       body: JSON.stringify({
-        id,
-        oldAvatar
+        currentAvatar,
+        id
       })
     });
 
@@ -62,12 +62,11 @@ class Api {
       headers,
       body
     });
-    
-    // TODO: Продолжить разработку клиента, после разработки gridfs
+
     return fetch(request)
       .then(res => res.json())
-      .then(url => url)
-      .catch(err => { throw err });
+      .then(({ avatar }) => avatar)
+      .catch(console.error);
   }
 
   putUser(user) {
@@ -143,10 +142,6 @@ class Api {
 
   withBlob() {
     this.headers.set('Content-Type', 'application/octet-stream');
-  }
-
-  withFormData() {
-    this.headers.set('Content-Type', 'multipart/form-data');
   }
 
   resetHeaders() {

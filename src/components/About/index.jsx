@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
-import { PUT_AVATAR, DELETE_AVATAR, server } from '../../variables';
+import { PUT_AVATAR, DELETE_AVATAR, server, rest } from '../../variables';
 import './assets/about.css';
 
 class About extends Component {
@@ -10,8 +10,9 @@ class About extends Component {
   };
 
   componentDidMount() {
-    let { about } = this.props;
+    let { about, id, hasAvatar } = this.props;
     let { aboutElem } = this.refs;
+    let { avatarBlob } = this.state;
 
     if (about) {
       about = about.replace(/(http|https):\/\/[\w-_]+\.[\w/]+/g, `<a href="$&" target="_blank">$&</a>`);
@@ -32,23 +33,27 @@ class About extends Component {
   }
 
   onUpdateAvatar = ({ target }) => {
-    const { id, handlePutAvatar, avatar: oldAvatar } = this.props;
+    const { id, handlePutAvatar, currentAvatar } = this.props;
     const avatar = target.files[0];
     
     if (avatar) {
       const formData = new FormData();
       formData.set('avatar', avatar);
-      formData.set('oldAvatar', oldAvatar);
+      formData.set('currentAvatar', currentAvatar);
       formData.set('id', id);
 
       handlePutAvatar(formData);
+      this.setState({ modalIsOpen: false });
     }
   }
 
-  onRemoveAvatar = () => {}
+  onRemoveAvatar = () => {
+    const { id, currentAvatar, handleDeleteAvatar } = this.props;
+    handleDeleteAvatar({ id, currentAvatar });
+  }
 
   render() {
-    const { username, firstname, lastname, avatar, about } = this.props;
+    const { username, firstname, lastname, currentAvatar, about, id } = this.props;
     const { modalIsOpen } = this.state;
 
     return (
@@ -56,7 +61,11 @@ class About extends Component {
         <div className="wrap">
           <div className="avatar">
             <button onClick={this.handleOpenModal} className="load" />
-            {avatar ? <img src={`${server}/${avatar}`} alt="" /> : null}
+            {currentAvatar ?
+              <img src={`${server}/${id}/${currentAvatar}`} alt="" />
+              :
+              null
+            }
           </div>
           {modalIsOpen ? 
             <Modal>
@@ -92,7 +101,7 @@ class About extends Component {
 function mapStateToProps({ user }) {
   return {
     id: user._id,
-    avatar: user.avatar,
+    currentAvatar: user.avatar,
     username: user.username,
     firstname: user.firstname,
     lastname: user.lastname,
@@ -104,6 +113,10 @@ function mapDispatchToProps(dispatch) {
   return {
     handlePutAvatar(data) {
       dispatch({ type: PUT_AVATAR, payload: data });
+    },
+
+    handleDeleteAvatar({ id, currentAvatar }) {
+      dispatch({ type: DELETE_AVATAR, payload: { id, currentAvatar }});
     }
   };
 }

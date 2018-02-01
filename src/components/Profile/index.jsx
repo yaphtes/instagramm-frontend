@@ -11,7 +11,6 @@ import Button from '../Button';
 import './profile.css';
 
 
-// TODO: пофиксить баг с отображением полоски первого инпута
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -63,9 +62,6 @@ class Profile extends Component {
 
     if (usernameIsValid) {
       handlePutUser(user);
-    } else {
-      // TODO: оповестить пользователя о невалидности
-      return;
     }
   }
 
@@ -87,7 +83,7 @@ class Profile extends Component {
             <h3 className="head">My Profile</h3>
             <form className="data" onSubmit={this.handleSubmit}>
               <TextField
-                name="username"  
+                name="username"
                 fullWidth={true}
                 defaultValue={username}
                 floatingLabelText="Username"
@@ -124,7 +120,7 @@ class Profile extends Component {
               <RadioButtonGroup
                 name="gender"
                 className="gender"
-                defaultSelected={gender}
+                defaultSelected={gender || "none"}
                 onChange={this.handleChangeGender}>
                 <RadioButton
                   value="man"

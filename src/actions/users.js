@@ -11,40 +11,41 @@ import {
   GET_USER_BY_TOKEN_FAILED,
   PUT_USER_SUCCEEDED,
   PUT_USER_FAILED,
+  PUT_AVATAR_BLOB,
   PUT_AVATAR_FAILED,
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
   DELETE_AVATAR_FAILED,
   POST_ARTICLE_SUCCEEDED,
-  POST_ARTICLE_FAILED
+  POST_ARTICLE_FAILED,
 } from '../variables';
 
 // В ОБРАБОТЧИКАХ ДОБАВИТЬ ПРОВЕРКУ НА 401 статус (редирект с сервака, токен закончился)
 
 
 export function* postArticle({ payload }) {
-  const { id: userId, article } = payload;
+  const { id, article } = payload;
 
   try {
-    const postedArticle = yield apply(api, api.postArticle, [userId, article]);
+    const postedArticle = yield apply(api, api.postArticle, [id, article]);
   } catch (err) {
     yield put({ type: POST_ARTICLE_FAILED, payload: err });
   }
 }
 
 export function* deleteAvatar({ payload }) {
-  const { id, oldAvatar } = payload;
+  const { id, currentAvatar } = payload;
   try {
-    yield apply(api, api.deleteAvatar, [id, oldAvatar]);
+    yield apply(api, api.deleteAvatar, [id, currentAvatar]);
     yield put({ type: DELETE_AVATAR_SUCCEEDED });
   } catch (err) {
     yield put({ type: DELETE_AVATAR_FAILED, payload: err });
   }
 }
 
-export function* putAvatar({ payload }) {
+export function* putAvatar({ payload: formData }) {
   try {
-    const { avatar } = yield call([api, api.putAvatar], payload);
+    const avatar = yield call([api, api.putAvatar], formData);
     yield put({ type: PUT_AVATAR_SUCCEEDED, payload: avatar });
   } catch (err) {
     yield put({ type: PUT_AVATAR_FAILED, payload: err });
