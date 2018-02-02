@@ -11,7 +11,6 @@ import {
   GET_USER_BY_TOKEN_FAILED,
   PUT_USER_SUCCEEDED,
   PUT_USER_FAILED,
-  PUT_AVATAR_BLOB,
   PUT_AVATAR_FAILED,
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
@@ -23,11 +22,10 @@ import {
 // В ОБРАБОТЧИКАХ ДОБАВИТЬ ПРОВЕРКУ НА 401 статус (редирект с сервака, токен закончился)
 
 
-export function* postArticle({ payload }) {
-  const { id, article } = payload;
-
+export function* postArticle({ payload: formData }) {
   try {
-    const postedArticle = yield apply(api, api.postArticle, [id, article]);
+    const post = yield call([api, api.postArticle], formData);
+    yield put({ type: POST_USER_SUCCEEDED, payload: post });
   } catch (err) {
     yield put({ type: POST_ARTICLE_FAILED, payload: err });
   }

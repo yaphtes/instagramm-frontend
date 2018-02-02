@@ -6,7 +6,7 @@ import {
   USER_LOGOUTED_SUCCEEDED,
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
-  PUT_AVATAR_BLOB
+  POST_ARTICLE_SUCCEEDED
 } from '../variables';
 
 import initialState from '../store/initialState';
@@ -16,6 +16,12 @@ const defaultState = initialState.user;
 // TODO: Обработать фейлы
 export default function user(state = defaultState, action) {
   switch (action.type) {
+    case POST_ARTICLE_SUCCEEDED:
+      return {
+        ...state,
+        posts: [action.payload, ...state.posts]
+      };
+
     case POST_USER_SUCCEEDED:
     case GET_USER_SUCCEEDED:
     case GET_USER_BY_TOKEN_SUCCEEDED:

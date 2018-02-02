@@ -6,6 +6,7 @@
     "firstname": "",
     "lastname": "",
     "about": "",
-    "avatar": ""
+    "avatar": "",
+    "posts": []
   }
 }

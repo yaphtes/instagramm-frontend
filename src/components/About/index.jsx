@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
-import { PUT_AVATAR, DELETE_AVATAR, server, rest } from '../../variables';
+import { PUT_AVATAR, DELETE_AVATAR, server } from '../../variables';
 import './assets/about.css';
 
 class About extends Component {
@@ -10,9 +10,8 @@ class About extends Component {
   };
 
   componentDidMount() {
-    let { about, id, hasAvatar } = this.props;
+    let { about } = this.props;
     let { aboutElem } = this.refs;
-    let { avatarBlob } = this.state;
 
     if (about) {
       about = about.replace(/(http|https):\/\/[\w-_]+\.[\w/]+/g, `<a href="$&" target="_blank">$&</a>`);

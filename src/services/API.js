@@ -13,29 +13,21 @@ class Api {
   }
 
 
-  // postArticle(userId, article) {
-  //   return new Promise((resolve, reject) => {
-  //     const { title, content, preview, collection } = article;
-  //     const { headers } = this;
+  postArticle(body) {
+    const { headers } = this;
+    this.resetHeaders();
 
-  //     const body = new FormData();
+    const request = new Request(`${rest}/article`, {
+      method: 'post',
+      headers,
+      body
+    });
 
-  //     body.set('title', title);
-  //     body.set('content', content);
-  //     body.set('preview', preview);
-
-  //     for (let file of collection) {
-  //       body.append('collection', file);
-  //     };
-  //     const request = new Request(`${rest}/article`, {
-  //       method: 'post',
-  //       headers,
-  //       body
-  //     });
-
-  //     fetch(request)
-  //   });
-  // }
+    fetch(request)
+      // .then(res => res.json())
+      // .then(post => post)
+      // .catch(err => { throw err });
+  }
 
   deleteAvatar(id, currentAvatar) {
     const { headers } = this;
@@ -72,6 +64,7 @@ class Api {
   putUser(user) {
     const { headers } = this;
     this.withJson();
+    console.log(headers.get('x-jwt'));
     const request = new Request(`${rest}/user`, {
       method: 'put',
       headers,

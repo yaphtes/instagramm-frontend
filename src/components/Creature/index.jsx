@@ -54,14 +54,19 @@ class Creature extends Component {
     event.preventDefault();
     const { id, handlePostArticle } = this.props;
     const { title, content, preview, collection } = this.state;
-    const article = {
-      title,
-      content,
-      preview,
-      collection
-    };
 
-    handlePostArticle({ article, id });
+    const formData = new FormData();
+    formData.set('id', id);
+    formData.set('title', title);
+    formData.set('content', content);
+    formData.set('preview', preview);
+    formData.set('date', Date.now());
+
+    collection.forEach(photo => {
+      formData.append('collection', photo);
+    });
+
+    handlePostArticle(formData);
   }
 
   handleChangeTitle = ({ target }) => {
@@ -95,7 +100,7 @@ class Creature extends Component {
 
   render() {
     let { title, content, preview, collection, previewWindowIsVisible } = this.state;
-    const { avatar } = this.props;
+    const { avatar, id } = this.props;
 
     return (
       <div className="creature">
@@ -167,6 +172,7 @@ class Creature extends Component {
           { previewWindowIsVisible ?
             <Fragment>
               <Preview
+                id={id}
                 avatar={avatar}
                 title={title}
                 content={content}
@@ -194,14 +200,13 @@ class Creature extends Component {
 
 function mapStateToProps({ user }) {
   const { avatar, _id: id } = user;
-
   return { avatar, id };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    handlePostArticle({ article, id }) {
-      dispatch({ type: POST_ARTICLE, payload: { article, id } });
+    handlePostArticle(data) {
+      dispatch({ type: POST_ARTICLE, payload: data });
     }
   };
 }

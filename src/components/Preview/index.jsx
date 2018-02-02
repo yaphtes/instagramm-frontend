@@ -2,16 +2,15 @@ import React from 'react';
 import { server } from '../../variables';
 import { Card, CardHeader, CardText, CardMedia } from 'material-ui/Card';
 
-export default function Preview({ avatar, title, content, preview }) {
+export default function Preview({ avatar, id, title, content, preview }) {
   if (preview) {
     preview = URL.createObjectURL(preview);
   }
 
-
   return (
     <div className="preview" >
       <Card>
-        <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${server}/${avatar}` : null} />
+        <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${server}/${id}/${avatar}` : null} />
         {preview ?
           <CardMedia overlay={content ? <CardText>{content.length <= 101 ? content : content.slice(0, 101) + '...'}</CardText> : null}>
             <img src={preview} alt=""/>
