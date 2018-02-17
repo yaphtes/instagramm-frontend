@@ -28,7 +28,7 @@ class Header extends Component {
             {isAuthenticated ?
                 <Fragment>
                   <NavButton to="/" exact={true} component={Home} />
-                  <NavButton to="/creature" component={Create} />
+                  <NavButton to="/creating" component={Create} />
                   <NavButton to="/feed" component={Feed} />
                   <NavButton to="/profile" component={Account} />
                   <FlatButton labelStyle={{ color: accentColor }} label="Log Out" onClick={handleLogout} />

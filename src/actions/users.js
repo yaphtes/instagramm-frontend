@@ -19,13 +19,10 @@ import {
   POST_ARTICLE_FAILED,
 } from '../variables';
 
-// В ОБРАБОТЧИКАХ ДОБАВИТЬ ПРОВЕРКУ НА 401 статус (редирект с сервака, токен закончился)
-
-
 export function* postArticle({ payload: formData }) {
   try {
     const post = yield call([api, api.postArticle], formData);
-    yield put({ type: POST_USER_SUCCEEDED, payload: post });
+    yield put({ type: POST_ARTICLE_SUCCEEDED, payload: post });
   } catch (err) {
     yield put({ type: POST_ARTICLE_FAILED, payload: err });
   }

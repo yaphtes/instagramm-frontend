@@ -13,6 +13,21 @@ class Api {
   }
 
 
+  getPostPreviewById(postId) {
+    const { headers } = this;
+    this.withUri();
+
+    const request = new Request(`${rest}/post-preview?postId=${postId}`, {
+      method: 'get',
+      headers
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(postPreview => postPreview )
+      .catch(err => { throw err });
+  }
+
   postArticle(body) {
     const { headers } = this;
     this.resetHeaders();
@@ -23,10 +38,10 @@ class Api {
       body
     });
 
-    fetch(request)
-      // .then(res => res.json())
-      // .then(post => post)
-      // .catch(err => { throw err });
+    return fetch(request)
+      .then(res => res.json())
+      .then(({ postId }) => postId)
+      .catch(err => { throw err });
   }
 
   deleteAvatar(id, currentAvatar) {
@@ -142,5 +157,4 @@ class Api {
   }
 }
 
-const api = new Api();
-export default api;
+export default new Api();

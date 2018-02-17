@@ -5,9 +5,8 @@ import { POST_USER, accentColor, usernameRegexp, passwordRegexp } from '../../va
 import TextField from 'material-ui/TextField';
 import { orange600 } from 'material-ui/styles/colors';
 import Button from '../Button';
+import { Auth, Form } from './styled';
 
-
-import './auth.css';
 
 class Registration extends Component {
   constructor(props) {
@@ -95,9 +94,7 @@ class Registration extends Component {
   }
 
   render() {
-    if (localStorage.getItem('jwt')) {
-      return <Redirect to="/" />;
-    }
+    if (localStorage.getItem('jwt')) return <Redirect to="/" />;
 
     const {
       username,
@@ -110,10 +107,10 @@ class Registration extends Component {
     } = this.state;
 
     return (
-      <div className="reglogin">
+      <Auth>
         <div className="wrap">
           <h3>Sign up</h3>
-          <form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
             <TextField
               value={username}
               fullWidth={true}
@@ -155,9 +152,9 @@ class Registration extends Component {
               type="submit"
               color="#fff"
               backgroundColor={accentColor}/>
-          </form>
+          </Form>
         </div>
-      </div>
+      </Auth>
     );  
   }
 }

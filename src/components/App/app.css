@@ -13,16 +13,6 @@
   margin-right: auto;
 }
 
-#content {
-  min-height: calc(100vh - 112px);
-  background-color: var(--main-color);
-}
 body { margin: 0; }
 
 * { box-sizing: border-box; }
-
-
-/* font-family: 'Sedgwick Ave', cursive;
-font-family: 'Indie Flower', cursive;
-font-family: 'Kavivanar', cursive;
-font-family: 'Lobster', cursive; */

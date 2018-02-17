@@ -8,8 +8,8 @@ import Background from 'material-ui/svg-icons/image/texture';
 import Eject from 'material-ui/svg-icons/action/eject';
 import Button from '../Button';
 import { accentColor, POST_ARTICLE } from '../../variables';
-import './creature.css';
-import Preview from '../Preview';
+import './creating.css';
+import CreatingPreview from '../CreatingPreview';
 
 const styles = {
   button: {
@@ -37,7 +37,7 @@ const styles = {
   }
 };
 
-class Creature extends Component {
+class Creating extends Component {
   state = {
     title: '',
     content: '',
@@ -100,10 +100,10 @@ class Creature extends Component {
 
   render() {
     let { title, content, preview, collection, previewWindowIsVisible } = this.state;
-    const { avatar, id } = this.props;
+    const { avatar, id: userId } = this.props;
 
     return (
-      <div className="creature">
+      <div className="creating">
         <div className="wrap">
           <div className="toolkits">
             <Button
@@ -171,8 +171,8 @@ class Creature extends Component {
           </form>
           { previewWindowIsVisible ?
             <Fragment>
-              <Preview
-                id={id}
+              <CreatingPreview
+                userId={userId}
                 avatar={avatar}
                 title={title}
                 content={content}
@@ -211,4 +211,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Creature);
+export default connect(mapStateToProps, mapDispatchToProps)(Creating);

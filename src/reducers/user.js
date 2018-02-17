@@ -10,16 +10,16 @@ import {
 } from '../variables';
 
 import initialState from '../store/initialState';
-const defaultState = initialState.user;
+const userInitialState = initialState.user;
 
 
 // TODO: Обработать фейлы
-export default function user(state = defaultState, action) {
-  switch (action.type) {
+export default function user(state = userInitialState, { type, payload }) {
+  switch (type) {
     case POST_ARTICLE_SUCCEEDED:
       return {
         ...state,
-        posts: [action.payload, ...state.posts]
+        posts: [...state.posts, payload]
       };
 
     case POST_USER_SUCCEEDED:
@@ -28,13 +28,13 @@ export default function user(state = defaultState, action) {
     case PUT_USER_SUCCEEDED:
     return {
       ...state,
-      ...action.payload
+      ...payload
     };
 
     case PUT_AVATAR_SUCCEEDED:
       return {
         ...state,
-        avatar: action.payload
+        avatar: payload
       };
 
     case DELETE_AVATAR_SUCCEEDED:

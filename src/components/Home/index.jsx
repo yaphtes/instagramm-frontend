@@ -7,9 +7,8 @@ import Loader from '../Loader';
 class Home extends Component {
   render() {
     const dataIsLoaded = Boolean(this.props.username);
+    const { posts } = this.props;
 
-    const posts = [];
-  
     if (dataIsLoaded) {
       return (
         <div className="home">
@@ -24,7 +23,10 @@ class Home extends Component {
 }
 
 function mapStateToProps({ user }) {
-  return { username: user.username }
+  return {
+    username: user.username,
+    posts: user.posts
+  };
 }
 
 

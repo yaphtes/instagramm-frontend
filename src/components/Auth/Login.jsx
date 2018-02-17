@@ -4,8 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { GET_USER, accentColor } from '../../variables';
 import TextField from 'material-ui/TextField';
 import Button from '../Button';
+import { Auth, Form } from './styled';
 
-import './auth.css';
 
 class Login extends Component {
   constructor(props) {
@@ -41,10 +41,10 @@ class Login extends Component {
     }
 
     return (
-      <div className="reglogin">
+      <Auth>
         <div className="wrap">
           <h3>Log in</h3>
-          <form ref="form" onSubmit={this.handleLogin}>
+          <Form ref="form" onSubmit={this.handleLogin}>
             <TextField
               value={username}
               floatingLabelText="Username"
@@ -64,9 +64,9 @@ class Login extends Component {
               color="#fff"
               type="submit"
               backgroundColor={accentColor}/>
-          </form>
+          </Form>
         </div>
-      </div>
+      </Auth>
     );
   }
 }

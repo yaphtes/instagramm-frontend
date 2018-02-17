@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
 import { PUT_AVATAR, DELETE_AVATAR, server } from '../../variables';
-import './assets/about.css';
+import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
 
 class About extends Component {
-  state = {
-    modalIsOpen: false
-  };
+  state = { modalIsOpen: false };
 
   componentDidMount() {
     let { about } = this.props;
@@ -56,43 +54,40 @@ class About extends Component {
     const { modalIsOpen } = this.state;
 
     return (
-      <section className="about">
-        <div className="wrap">
-          <div className="avatar">
-            <button onClick={this.handleOpenModal} className="load" />
-            {currentAvatar ?
-              <img src={`${server}/${id}/${currentAvatar}`} alt="" />
-              :
-              null
-            }
-          </div>
-          {modalIsOpen ? 
-            <Modal>
-              <div className="modal-avatar-container" onClick={this.handleCloseModal}>
-                <div className="modal-avatar">
-                  <h3>Avatar</h3>
-                  <label>Load new<input onChange={this.onUpdateAvatar} ref="fileElem" type="file" style={{display: 'none'}} /></label>
-                  <button onClick={this.onRemoveAvatar}>Remove current</button>
-                </div>
-              </div>
-            </Modal>
-            : null
+      <Hero>
+        <Avatar>
+          <button onClick={this.handleOpenModal} />
+          {currentAvatar ?
+            <img src={`${server}/${id}/${currentAvatar}`} alt="" />
+            :
+            null
           }
-          <div className="info">
-            <div className="username">
-              <span>{username} </span>
-              <button id="follow">follow</button>
-            </div>
-            <div className="text">
-              <span className="name">{firstname} </span>
-              <span className="name">{lastname} </span>
-              <span ref="aboutElem">
-                {about}
-              </span>
-            </div>
+        </Avatar>
+        {modalIsOpen ? 
+          <Modal>
+            <ModalAvatarWrap onClick={this.handleCloseModal}>
+              <div className="modal-avatar">
+                <h3>Avatar</h3>
+                <label>Load new<input onChange={this.onUpdateAvatar} ref="fileElem" type="file" style={{display: 'none'}} /></label>
+                <button onClick={this.onRemoveAvatar}>Remove current</button>
+              </div>
+            </ModalAvatarWrap>
+          </Modal> : null
+        }
+        <Info>
+          <div className="username">
+            <span>{username} </span>
+            <button id="follow">follow</button>
           </div>
-        </div>
-      </section>
+          <div className="text">
+            <span className="name">{firstname} </span>
+            <span className="name">{lastname} </span>
+            <span ref="aboutElem">
+              {about}
+            </span>
+          </div>
+        </Info>
+      </Hero>
     );
   }
 }
