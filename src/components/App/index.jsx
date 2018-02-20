@@ -12,15 +12,10 @@ import Creating from '../Creating';
 import Login from '../Auth/Login';
 import Registration from '../Auth/Registration';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-import styled from 'styled-components';
-import { mainColor } from '../vars';
+import { Content } from './styled';
 import './app.css';
 
-const Content = styled.div`
-  min-height: calc(100vh - 112px);
-  background-color: ${mainColor}
-`;
+
 
 export default function App() {
   return (

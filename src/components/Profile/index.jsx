@@ -8,7 +8,7 @@ import UncheckedIcon from 'material-ui/svg-icons/toggle/radio-button-unchecked';
 import { RadioButtonGroup, RadioButton } from 'material-ui/RadioButton';
 import { orange600 } from 'material-ui/styles/colors';
 import Button from '../Button';
-import './profile.css';
+import { ProfileStyled } from './styled';
 
 
 class Profile extends Component {
@@ -78,78 +78,76 @@ class Profile extends Component {
 
     if (dataIsLoaded) {
       return (
-        <div className="profile">
-          <div className="wrap">
-            <h3 className="head">My Profile</h3>
-            <form className="data" onSubmit={this.handleSubmit}>
-              <TextField
-                name="username"
-                fullWidth={true}
-                defaultValue={username}
-                floatingLabelText="Username"
-                onChange={this.validateUsername}
-                errorStyle={{ color: orange600 }}
-                hintText={this.usernameRegexp.toString()}
-                underlineFocusStyle={{ borderColor: accentColor }}
-                errorText={usernameIsValid ? null : usernameInvalidInfo}
-                floatingLabelStyle={usernameIsValid ? null : { color: orange600 }}
-                floatingLabelFocusStyle={usernameIsValid ? { color: accentColor } : { color: orange600 }}/>
-              <TextField
-                name="firstname"
-                fullWidth={true}
-                defaultValue={firstname}
-                floatingLabelText="Firstname"
-                floatingLabelFocusStyle={{ color: accentColor }}
-                underlineFocusStyle={{ borderColor: accentColor }}/>
-              <TextField
-                name="lastname"
-                fullWidth={true}
-                defaultValue={lastname}
-                floatingLabelText="Lastname"
-                floatingLabelFocusStyle={{ color: accentColor }}
-                underlineFocusStyle={{ borderColor: accentColor }}/>
-              <TextField
-                name="about"
-                multiLine={true}
-                fullWidth={true}
-                defaultValue={about}
-                floatingLabelText="About"
-                floatingLabelFocusStyle={{ color: accentColor }}
-                underlineFocusStyle={{ borderColor: accentColor }}/>
-              <div className="gender-title">Gender</div>
-              <RadioButtonGroup
-                name="gender"
-                className="gender"
-                defaultSelected={gender || "none"}
-                onChange={this.handleChangeGender}>
-                <RadioButton
-                  value="man"
-                  label="Man"
-                  checkedIcon={<CheckedIcon style={{ fill: accentColor }} />}
-                  uncheckedIcon={<UncheckedIcon />}
-                />
-                <RadioButton
-                  value="woman"
-                  label="Woman"
-                  checkedIcon={<CheckedIcon style={{ fill: accentColor }} />}
-                  uncheckedIcon={<UncheckedIcon />}
-                />
-                <RadioButton
-                  value="none"
-                  label="None"
-                  checkedIcon={<CheckedIcon style={{ fill: accentColor }} />}
-                  uncheckedIcon={<UncheckedIcon />}
-                />
-              </RadioButtonGroup>
-              <Button
-                color="#fff"
-                raised={true}
-                type="submit"
-                label="Submit"
-                backgroundColor={accentColor}/>
-            </form>
-          </div>
-        </div>
+        <ProfileStyled>
+          <h3 className="head">My Profile</h3>
+          <form className="data" onSubmit={this.handleSubmit}>
+            <TextField
+              name="username"
+              fullWidth={true}
+              defaultValue={username}
+              floatingLabelText="Username"
+              onChange={this.validateUsername}
+              errorStyle={{ color: orange600 }}
+              hintText={this.usernameRegexp.toString()}
+              underlineFocusStyle={{ borderColor: accentColor }}
+              errorText={usernameIsValid ? null : usernameInvalidInfo}
+              floatingLabelStyle={usernameIsValid ? null : { color: orange600 }}
+              floatingLabelFocusStyle={usernameIsValid ? { color: accentColor } : { color: orange600 }}/>
+            <TextField
+              name="firstname"
+              fullWidth={true}
+              defaultValue={firstname}
+              floatingLabelText="Firstname"
+              floatingLabelFocusStyle={{ color: accentColor }}
+              underlineFocusStyle={{ borderColor: accentColor }}/>
+            <TextField
+              name="lastname"
+              fullWidth={true}
+              defaultValue={lastname}
+              floatingLabelText="Lastname"
+              floatingLabelFocusStyle={{ color: accentColor }}
+              underlineFocusStyle={{ borderColor: accentColor }}/>
+            <TextField
+              name="about"
+              multiLine={true}
+              fullWidth={true}
+              defaultValue={about}
+              floatingLabelText="About"
+              floatingLabelFocusStyle={{ color: accentColor }}
+              underlineFocusStyle={{ borderColor: accentColor }}/>
+            <div className="gender-title">Gender</div>
+            <RadioButtonGroup
+              name="gender"
+              className="gender"
+              defaultSelected={gender || "none"}
+              onChange={this.handleChangeGender}>
+              <RadioButton
+                value="man"
+                label="Man"
+                checkedIcon={<CheckedIcon style={{ fill: accentColor }} />}
+                uncheckedIcon={<UncheckedIcon />}
+              />
+              <RadioButton
+                value="woman"
+                label="Woman"
+                checkedIcon={<CheckedIcon style={{ fill: accentColor }} />}
+                uncheckedIcon={<UncheckedIcon />}
+              />
+              <RadioButton
+                value="none"
+                label="None"
+                checkedIcon={<CheckedIcon style={{ fill: accentColor }} />}
+                uncheckedIcon={<UncheckedIcon />}
+              />
+            </RadioButtonGroup>
+            <Button
+              color="#fff"
+              raised={true}
+              type="submit"
+              label="Submit"
+              backgroundColor={accentColor}/>
+          </form>
+        </ProfileStyled>
       );
     } else {
       return <Loader />

@@ -1,14 +1,13 @@
 import React from 'react';
-
-import './footer.css';
+import { FooterStyled, WrapStyled } from './styled';
 
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="wrap">
+    <FooterStyled>
+      <WrapStyled>
         <span>@ 2018 ourthoughts</span>
         <span>Created by Konstantin Otpushchennikov</span>
-      </div>
-    </footer>
+      </WrapStyled>
+    </FooterStyled>
   );
 }

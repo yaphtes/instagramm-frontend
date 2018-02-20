@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import About from '../About';
+import About from './About';
 import { connect } from 'react-redux';
-import Posts from '../Posts';
-import Loader from '../Loader';
+import Posts from './Posts';
+import Loader from './Loader';
 
 class Home extends Component {
   render() {
@@ -11,7 +11,7 @@ class Home extends Component {
 
     if (dataIsLoaded) {
       return (
-        <div className="home">
+        <div>
           <About />
           <Posts posts={posts} />
         </div>

@@ -8,7 +8,7 @@ import Feed from 'material-ui/svg-icons/communication/rss-feed';
 import Account from 'material-ui/svg-icons/action/account-circle';
 import FlatButton from 'material-ui/FlatButton';
 import Home from 'material-ui/svg-icons/action/home';
-import './header.css';
+import { HeaderStyled, WrapStyled } from './styled';
 
 
 class Header extends Component {
@@ -17,8 +17,8 @@ class Header extends Component {
     const isAuthenticated = localStorage.getItem('jwt');
   
     return (
-      <header className="header">
-        <div className="wrap">
+      <HeaderStyled>
+        <WrapStyled>
           <Link to="/" className="logo" tabIndex="-1">Our Thoughts</Link>
           <div className="search">
             <input placeholder="Search" type="text"/>
@@ -40,8 +40,8 @@ class Header extends Component {
                 </Fragment>
               }          
           </div>
-        </div>
-      </header>
+        </WrapStyled>
+      </HeaderStyled>
     );
   }
 }

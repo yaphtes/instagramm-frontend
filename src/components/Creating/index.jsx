@@ -8,8 +8,8 @@ import Background from 'material-ui/svg-icons/image/texture';
 import Eject from 'material-ui/svg-icons/action/eject';
 import Button from '../Button';
 import { accentColor, POST_ARTICLE } from '../../variables';
-import './creating.css';
 import CreatingPreview from '../CreatingPreview';
+import { CreatingStyled, Toolkits } from './styled';
 
 const styles = {
   button: {
@@ -103,97 +103,93 @@ class Creating extends Component {
     const { avatar, id: userId } = this.props;
 
     return (
-      <div className="creating">
-        <div className="wrap">
-          <div className="toolkits">
+      <CreatingStyled>
+        <Toolkits>
+          <Button
+            icon={previewWindowIsVisible ? VisibilityOff : Visibility}
+            onClick={this.handleChangePreviewVisible}
+            tooltip={previewWindowIsVisible ? 'Close preview' : 'Open preview'}
+            touch={true}
+            iconStyle={styles.icon}
+            style={{ ...styles.button, ...styles.iconAround }}
+          />
+          {!preview ?
             <Button
-              icon={previewWindowIsVisible ? VisibilityOff : Visibility}
-              onClick={this.handleChangePreviewVisible}
-              tooltip={previewWindowIsVisible ? 'Close preview' : 'Open preview'}
+              icon={Background}
+              tooltip="Add preview"
               touch={true}
               iconStyle={styles.icon}
-              style={{ ...styles.button, ...styles.iconAround }}
-            />
-            { !preview ?
-              <Button
-                icon={Background}
-                tooltip="Add preview"
-                touch={true}
-                iconStyle={styles.icon}
-                style={{ position: 'relative', ...styles.button, ...styles.iconAround }}>
-                <label className="file"><input onChange={this.handleChangePreview} type="file"/></label>
-              </Button>
-              :
-              <Button
-                icon={Eject}
-                onClick={this.handleDeletePreview}
-                tooltip="Delete preveiw"
-                touch={true}
-                iconStyle={styles.icon}
-                style={{ position: 'relative', ...styles.button, ...styles.iconAround }}
-              />
-            }
-            <Button
-              touch={true}
-              icon={Collections}
-              iconStyle={styles.icon}
-              tooltip="Change colleciton of photos"
               style={{ position: 'relative', ...styles.button, ...styles.iconAround }}>
-              <label className="file"><input type="file" onChange={this.handleChangeCollection} multiple={true} /></label>
+              <label className="file"><input onChange={this.handleChangePreview} type="file"/></label>
             </Button>
-          </div>
-          <form onSubmit={this.handleSubmit}>
-            <TextField
-              fullWidth={true}
-              floatingLabelText="Title"
-              hintText="Write a title"
-              floatingLabelFocusStyle={{ color: accentColor }}
-              underlineFocusStyle={{ borderColor: accentColor }}
-              onChange={this.handleChangeTitle}
-            />
-            <TextField
-              floatingLabelText="Content"
-              hintText="Write a content"            
-              fullWidth={true}
-              multiLine={true}
-              rows={10}
-              floatingLabelFocusStyle={{ color: accentColor }}
-              underlineFocusStyle={{ borderColor: accentColor }}
-              onChange={this.handleChangeContent}
-            />
+            :
             <Button
-              raised={true}
-              label="submit"
-              type="submit"
-              color="#fff"
-              backgroundColor={accentColor}
+              icon={Eject}
+              onClick={this.handleDeletePreview}
+              tooltip="Delete preveiw"
+              touch={true}
+              iconStyle={styles.icon}
+              style={{ position: 'relative', ...styles.button, ...styles.iconAround }}
             />
-          </form>
-          { previewWindowIsVisible ?
-            <Fragment>
-              <CreatingPreview
-                userId={userId}
-                avatar={avatar}
-                title={title}
-                content={content}
-                preview={preview}
-              />
-            </Fragment>
-            : null
           }
-          { collection.length ?
-            <Fragment>
-              <h3 className="head">Коллекция фотографий</h3>
-              <div className="collection">
-                {collection.map((photo, i) => <div key={i} className="photo">
-                  <img src={URL.createObjectURL(photo)} alt=""/>
-                </div>)}
-              </div>
-            </Fragment>
-            : null
-          }
-        </div>        
-      </div>
+          <Button
+            touch={true}
+            icon={Collections}
+            iconStyle={styles.icon}
+            tooltip="Change colleciton of photos"
+            style={{ position: 'relative', ...styles.button, ...styles.iconAround }}>
+            <label className="file"><input type="file" onChange={this.handleChangeCollection} multiple={true} /></label>
+          </Button>
+        </Toolkits>
+        <form onSubmit={this.handleSubmit}>
+          <TextField
+            fullWidth={true}
+            floatingLabelText="Title"
+            hintText="Write a title"
+            floatingLabelFocusStyle={{ color: accentColor }}
+            underlineFocusStyle={{ borderColor: accentColor }}
+            onChange={this.handleChangeTitle}
+          />
+          <TextField
+            floatingLabelText="Content"
+            hintText="Write a content"            
+            fullWidth={true}
+            multiLine={true}
+            rows={10}
+            floatingLabelFocusStyle={{ color: accentColor }}
+            underlineFocusStyle={{ borderColor: accentColor }}
+            onChange={this.handleChangeContent}
+          />
+          <Button
+            raised={true}
+            label="submit"
+            type="submit"
+            color="#fff"
+            backgroundColor={accentColor}
+          />
+        </form>
+        {previewWindowIsVisible ?
+          <Fragment>
+            <CreatingPreview
+              userId={userId}
+              avatar={avatar}
+              title={title}
+              content={content}
+              preview={preview}
+            />
+          </Fragment> : null
+        }
+        {collection.length ?
+          <Fragment>
+            <h3 className="head">Коллекция фотографий</h3>
+            <div className="collection">
+              {collection.map((photo, i) => <div key={i} className="photo">
+                <img src={URL.createObjectURL(photo)} alt=""/>
+              </div>)}
+            </div>
+          </Fragment> : null
+        }
+      </CreatingStyled>
     );
   }
 }

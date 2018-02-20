@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PostPreview from './PostPreview';
-import './assets/posts.css';
+import { PostsStyled } from './styled';
 
 class Posts extends Component {
   state = {
@@ -12,17 +12,15 @@ class Posts extends Component {
     const { posts } = this.props;
 
     return (
-      <section className="posts">
-        <div className="wrap">
-          <div className="publications">
-            {posts.map((postId, i) =>
-              <div key={i} className="post">
-                <PostPreview postId={postId} />
-              </div>
-            )}
-          </div>
+      <PostsStyled>
+        <div className="publications">
+          {posts.map((postId, i) =>
+            <div key={i} className="post">
+              <PostPreview postId={postId} />
+            </div>
+          )}
         </div>
-      </section>
+      </PostsStyled>
     );
   }
 }
