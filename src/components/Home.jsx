@@ -1,33 +1,20 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import About from './About';
 import { connect } from 'react-redux';
 import Posts from './Posts';
-import Loader from './Loader';
 
-class Home extends Component {
-  render() {
-    const dataIsLoaded = Boolean(this.props.username);
-    const { posts } = this.props;
-
-    if (dataIsLoaded) {
-      return (
-        <div>
-          <About />
-          <Posts posts={posts} />
-        </div>
-      );
-    } else {
-      return <Loader />;
-    }
-  }
+function Home({ posts }) {
+  return (
+    <Fragment>
+      <About />
+      <Posts posts={posts} />
+    </Fragment>
+  );
 }
+
 
 function mapStateToProps({ user }) {
-  return {
-    username: user.username,
-    posts: user.posts
-  };
+  return { posts: user.posts };
 }
-
 
 export default connect(mapStateToProps)(Home);

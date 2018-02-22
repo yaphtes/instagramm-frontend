@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
-import { PUT_AVATAR, DELETE_AVATAR, server } from '../../variables';
+import { PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
 
 class About extends Component {
@@ -35,8 +35,8 @@ class About extends Component {
     
     if (avatar) {
       const formData = new FormData();
+      if (currentAvatar) formData.set('currentAvatar', currentAvatar);
       formData.set('avatar', avatar);
-      formData.set('currentAvatar', currentAvatar);
       formData.set('id', id);
 
       handlePutAvatar(formData);
@@ -58,7 +58,7 @@ class About extends Component {
         <Avatar>
           <button onClick={this.handleOpenModal} />
           {currentAvatar ?
-            <img src={`${server}/${id}/${currentAvatar}`} alt="" />
+            <img src={`${fileServer}/${id}/${currentAvatar}`} alt="" />
             :
             null
           }
@@ -93,6 +93,9 @@ class About extends Component {
 }
 
 function mapStateToProps({ user }) {
+
+  
+
   return {
     id: user._id,
     currentAvatar: user.avatar,

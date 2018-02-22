@@ -9,7 +9,7 @@ import Eject from 'material-ui/svg-icons/action/eject';
 import Button from '../Button';
 import { accentColor, POST_ARTICLE } from '../../variables';
 import CreatingPreview from '../CreatingPreview';
-import { CreatingStyled, Toolkits } from './styled';
+import { EditingStyled, Toolkits } from './styled';
 
 const styles = {
   button: {
@@ -37,7 +37,7 @@ const styles = {
   }
 };
 
-class Creating extends Component {
+class Editing extends Component {
   state = {
     title: '',
     content: '',
@@ -52,11 +52,11 @@ class Creating extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { id, handlePostArticle } = this.props;
+    const { userId, handlePostArticle } = this.props;
     const { title, content, preview, collection } = this.state;
 
     const formData = new FormData();
-    formData.set('id', id);
+    formData.set('userId', userId);
     formData.set('title', title);
     formData.set('content', content);
     formData.set('preview', preview);
@@ -100,10 +100,10 @@ class Creating extends Component {
 
   render() {
     let { title, content, preview, collection, previewWindowIsVisible } = this.state;
-    const { avatar, id: userId } = this.props;
+    const { avatar, userId } = this.props;
 
     return (
-      <CreatingStyled>
+      <EditingStyled>
         <Toolkits>
           <Button
             icon={previewWindowIsVisible ? VisibilityOff : Visibility}
@@ -189,14 +189,14 @@ class Creating extends Component {
             </div>
           </Fragment> : null
         }
-      </CreatingStyled>
+      </EditingStyled>
     );
   }
 }
 
 function mapStateToProps({ user }) {
-  const { avatar, _id: id } = user;
-  return { avatar, id };
+  const { avatar, _id: userId } = user;
+  return { avatar, userId };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -207,4 +207,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Creating);
+export default connect(mapStateToProps, mapDispatchToProps)(Editing);

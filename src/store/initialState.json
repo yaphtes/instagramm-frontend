@@ -2,11 +2,14 @@
   "user": {
     "_id": "",
     "username": "",
-    "password": "",
+    "hash": "",
     "firstname": "",
     "lastname": "",
     "about": "",
-    "avatar": "",
+    "avatar": null,
     "posts": []
-  }
+  },
+
+  "isMyUser": true,
+  "fetching": false
 }

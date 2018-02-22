@@ -6,16 +6,23 @@ import {
   USER_LOGOUTED_SUCCEEDED,
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
-  POST_ARTICLE_SUCCEEDED
+  POST_ARTICLE_SUCCEEDED,
+  DELETE_ARTICLE_SUCCEEDED
 } from '../variables';
 
 import initialState from '../store/initialState';
-const userInitialState = initialState.user;
+const { user: initialUser } = initialState;
 
-
+// TODO: Редьюсер article - в отдельный файл
 // TODO: Обработать фейлы
-export default function user(state = userInitialState, { type, payload }) {
+export default function user(state = initialUser, { type, payload }) {
   switch (type) {
+    case DELETE_ARTICLE_SUCCEEDED:
+      return {
+        ...state,
+        posts: state.posts.filter(item => item !== payload)
+      }
+
     case POST_ARTICLE_SUCCEEDED:
       return {
         ...state,
@@ -46,6 +53,14 @@ export default function user(state = userInitialState, { type, payload }) {
     case USER_LOGOUTED_SUCCEEDED:
       return {};
 
+    default:
+      return state;
+  }
+}
+
+
+export function isMyUser(state = true, { type, payload }) {
+  switch(type) {
     default:
       return state;
   }

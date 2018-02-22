@@ -1,5 +1,5 @@
 import React from 'react';
-import { server } from '../variables';
+import { fileServer } from '../variables';
 import { Card, CardHeader, CardText, CardMedia } from 'material-ui/Card';
 import styled from 'styled-components';
 
@@ -9,7 +9,7 @@ const PreviewStyled = styled.div`
   margin-top: 40px;
 `;
 
-export default function CreaturePreview({ avatar, userId, title, content, preview }) {
+export default function CreatingPreview({ avatar, userId, title, content, preview }) {
   if (preview) {
     preview = URL.createObjectURL(preview);
   }
@@ -17,7 +17,7 @@ export default function CreaturePreview({ avatar, userId, title, content, previe
   return (
     <PreviewStyled>
       <Card>
-        <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${server}/${userId}/${avatar}` : null} />
+        <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${fileServer}/${userId}/${avatar}` : null} />
         {preview ?
           <CardMedia overlay={content ? <CardText>{content.length <= 101 ? content : content.slice(0, 101) + '...'}</CardText> : null}>
             <img src={preview} alt=""/>

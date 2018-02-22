@@ -44,7 +44,7 @@ class Profile extends Component {
     event.preventDefault();
     const { usernameIsValid } = this.state;
     const { handlePutUser, id } = this.props;
-    const form = document.querySelector('.profile .data');
+    const { form } = this.refs;
     const username = form.username.value;
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
@@ -80,7 +80,7 @@ class Profile extends Component {
       return (
         <ProfileStyled>
           <h3 className="head">My Profile</h3>
-          <form className="data" onSubmit={this.handleSubmit}>
+          <form ref="form" className="data" onSubmit={this.handleSubmit}>
             <TextField
               name="username"
               fullWidth={true}

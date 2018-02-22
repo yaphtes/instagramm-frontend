@@ -1,4 +1,5 @@
 import { apply, put, call } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 import { replace, push } from 'react-router-redux';
 import api from '../services/api';
 import {
@@ -14,19 +15,10 @@ import {
   PUT_AVATAR_FAILED,
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
-  DELETE_AVATAR_FAILED,
-  POST_ARTICLE_SUCCEEDED,
-  POST_ARTICLE_FAILED,
+  DELETE_AVATAR_FAILED
 } from '../variables';
+import { fetching } from './fetching';
 
-export function* postArticle({ payload: formData }) {
-  try {
-    const post = yield call([api, api.postArticle], formData);
-    yield put({ type: POST_ARTICLE_SUCCEEDED, payload: post });
-  } catch (err) {
-    yield put({ type: POST_ARTICLE_FAILED, payload: err });
-  }
-}
 
 export function* deleteAvatar({ payload }) {
   const { id, currentAvatar } = payload;
@@ -71,8 +63,10 @@ export function* postUser({ payload }) {
 // TODO: обработать случай, когда пользователь не найден (заблокирован) на бэке
 export function* getUserByToken({ payload }) {
   try {
+    yield fetching(true);
     const user = yield apply(api, api.getUserByToken, [payload]);
     yield put({ type: GET_USER_BY_TOKEN_SUCCEEDED, payload: user });
+    yield fetching(false);
   } catch (err) {
     yield put({ type: GET_USER_BY_TOKEN_FAILED, payload: err });
   }

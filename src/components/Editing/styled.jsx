@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Wrap } from '../extends';
 import { accentColor, mainShadow } from '../vars';
 
-export const CreatingStyled = Wrap.extend`
+export const EditingStyled = Wrap.extend`
   padding-bottom: 5px;
 
   .head {

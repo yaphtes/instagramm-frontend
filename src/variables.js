@@ -28,10 +28,16 @@ export const DELETE_AVATAR_FAILED = 'DELETE_AVATAR_FAILED';
 export const POST_ARTICLE = 'POST_ARTICLE';
 export const POST_ARTICLE_SUCCEEDED = 'POST_ARTICLE_SUCCEEDED';
 export const POST_ARTICLE_FAILED = 'POST_ARTICLE_FAILED';
+export const DELETE_ARTICLE = 'DELETE_ARTICLE';
+export const DELETE_ARTICLE_SUCCEEDED = 'DELETE_ARTICLE_SUCCEDED';
+export const DELETE_ARTICLE_FAILED = 'DELETE_ARTICLE_FAILED';
+
+export const FETCHING = 'FETCHING';
 
 
 export const rest = 'http://localhost:8000/api';
-export const server = 'http://localhost:8000';
+export const fileServer = 'http://localhost:8000';
+export const localServer = 'http://localhost:3000'
 
 
 export const accentColor = '#3b8ede';

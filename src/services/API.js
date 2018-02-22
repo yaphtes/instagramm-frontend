@@ -12,6 +12,37 @@ class Api {
     Api.instance = this;
   }
 
+  deleteArticle({ postId, userId }) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/post`, {
+      method: 'delete',
+      headers,
+      body: JSON.stringify({
+        postId,
+        userId
+      })
+    });
+
+    return fetch(request)
+      .then(res => res.status)
+      .then(status => status)
+      .catch(err => { throw err });
+  }
+
+  getArticleById(postId) {
+    const { headers } = this;
+    this.withUri();
+    const request = new Request(`${rest}/post?postId=${postId}`, {
+      method: 'get',
+      headers
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(article => article)
+      .catch(err => { throw err });
+  }
 
   getPostPreviewById(postId) {
     const { headers } = this;

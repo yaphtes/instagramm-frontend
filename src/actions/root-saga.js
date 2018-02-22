@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, all } from 'redux-saga/effects';
 import {
   POST_USER,
   GET_USER,
@@ -7,7 +7,8 @@ import {
   PUT_USER,
   PUT_AVATAR,
   DELETE_AVATAR,
-  POST_ARTICLE
+  POST_ARTICLE,
+  DELETE_ARTICLE
 } from '../variables';
 import {
   postUser,
@@ -16,9 +17,12 @@ import {
   getUserByToken,
   putUser,
   putAvatar,
-  deleteAvatar,
-  postArticle
+  deleteAvatar
 } from'./users';
+import {
+  postArticle,
+  deleteArticle
+} from './posts';
 
 function* watchUserSagas() {
   yield takeLatest(POST_USER, postUser);
@@ -28,9 +32,16 @@ function* watchUserSagas() {
   yield takeLatest(PUT_USER, putUser);
   yield takeLatest(PUT_AVATAR, putAvatar);
   yield takeLatest(DELETE_AVATAR, deleteAvatar);
+}
+
+function* watchPostSagas() {
   yield takeLatest(POST_ARTICLE, postArticle);
+  yield takeLatest(DELETE_ARTICLE, deleteArticle);
 }
 
 export default function* rootSaga() {
-  yield watchUserSagas();
+  yield all([
+    watchUserSagas(),
+    watchPostSagas()
+  ]);
 }

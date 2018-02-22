@@ -2,37 +2,43 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { GET_USER_BY_TOKEN } from '../variables';
+import Loader from './Loader';
+
 
 class PrivateRoute extends Component {
+  constructor(props) {
+    super(props);
+    this.token = localStorage.getItem('jwt');
+  }
+
   componentDidMount() {
-    const { getUserByToken } = this.props;
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      getUserByToken(token);
-    }
+    const { handleGetUserByToken } = this.props;
+    handleGetUserByToken(this.token);
   }
 
   render() {
-    const { component: Component, ...rest } = this.props;
+    const { fetching, component: Component, ...rest } = this.props;
 
-    return (
-      <Route {...rest} render={props => {
-        return localStorage.getItem('jwt') ?
-          <Component {...props} />
-          :
-          <Redirect to="/login" />
-      }} />
-    );
+    if (this.token) {
+      return <Route {...rest} render={props => (<Component {...props}>
+        {fetching ? <Loader /> : null}
+      </Component>)}/>;
+    } else {
+      return <Redirect to="/login" />;
+    }
   }
 }
 
-// todo: fix ({ user }) => ({ user }) subscribe
+function mapStateToProps({ fetching }) {
+  return { fetching };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
-    getUserByToken(token) {
+    handleGetUserByToken(token) {
       dispatch({ type: GET_USER_BY_TOKEN, payload: token });
     }
   };
 }
 
-export default connect(null, mapDispatchToProps)(PrivateRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
