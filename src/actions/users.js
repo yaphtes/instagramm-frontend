@@ -1,5 +1,4 @@
-import { apply, put, call } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
+import { put, call } from 'redux-saga/effects';
 import { replace, push } from 'react-router-redux';
 import api from '../services/api';
 import {
@@ -15,7 +14,9 @@ import {
   PUT_AVATAR_FAILED,
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
-  DELETE_AVATAR_FAILED
+  DELETE_AVATAR_FAILED,
+  DELETE_USER_FAILED,
+  DELETE_USER_SUCCEEDED
 } from '../variables';
 import { fetching } from './fetching';
 
@@ -23,7 +24,7 @@ import { fetching } from './fetching';
 export function* deleteAvatar({ payload }) {
   const { id, currentAvatar } = payload;
   try {
-    yield apply(api, api.deleteAvatar, [id, currentAvatar]);
+    yield call([api, api.deleteAvatar], id, currentAvatar);
     yield put({ type: DELETE_AVATAR_SUCCEEDED });
   } catch (err) {
     yield put({ type: DELETE_AVATAR_FAILED, payload: err });
@@ -39,9 +40,21 @@ export function* putAvatar({ payload: formData }) {
   }
 }
 
+export function* deleteUser({ payload }) {
+  try {
+    yield fetching(true);
+    yield call([api, api.deleteUser], payload);
+    yield put({ type: DELETE_USER_SUCCEEDED });
+    yield call([localStorage, localStorage.removeItem], 'jwt');
+    yield fetching(false);
+  } catch(err) {
+    yield put({ type: DELETE_USER_FAILED, payload: err });
+  }
+}
+
 export function* putUser({ payload }) {
   try {
-    const user = yield apply(api, api.putUser, [payload]);
+    const user = yield call([api, api.putUser], payload);
     yield put({ type: PUT_USER_SUCCEEDED, payload: user });
     yield put(push('/'));
   } catch (err) {
@@ -51,8 +64,8 @@ export function* putUser({ payload }) {
 
 export function* postUser({ payload }) {
   try {
-    const user = yield apply(api, api.postUser, [payload]);
-    localStorage.setItem('jwt', user.hash);
+    const user = yield call([api, api.postUser], payload);
+    yield call([localStorage, localStorage.setItem], 'jwt', user.hash);
     yield put({ type: POST_USER_SUCCEEDED, payload: user });
     yield put(replace('/'));
   } catch(err) {
@@ -64,7 +77,7 @@ export function* postUser({ payload }) {
 export function* getUserByToken({ payload }) {
   try {
     yield fetching(true);
-    const user = yield apply(api, api.getUserByToken, [payload]);
+    const user = yield call([api, api.getUserByToken], payload);
     yield put({ type: GET_USER_BY_TOKEN_SUCCEEDED, payload: user });
     yield fetching(false);
   } catch (err) {
@@ -74,8 +87,8 @@ export function* getUserByToken({ payload }) {
 
 export function* getUser({ payload }) {
   try {
-    const user = yield apply(api, api.getUser, [payload]);
-    localStorage.setItem('jwt', user.hash);
+    const user = yield call([api, api.getUser], payload);
+    yield call([localStorage, localStorage.setItem], 'jwt', user.hash);
     yield put({ type: GET_USER_SUCCEEDED, payload: user });
     yield put(replace('/'));
   } catch(err) {
@@ -86,5 +99,5 @@ export function* getUser({ payload }) {
 export function* logoutUser() {
   yield put({ type: USER_LOGOUTED_SUCCEEDED });
   yield put(replace('/login'));
-  yield apply(localStorage, localStorage.clear);
+  yield call([localStorage, localStorage.clear]);
 }

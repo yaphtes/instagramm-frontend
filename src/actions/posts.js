@@ -8,8 +8,6 @@ import {
   DELETE_ARTICLE_FAILED
 } from '../variables';
 
-import fetching from './fetching';
-
 export function* postArticle({ payload: formData }) {
   try {
     const post = yield call([api, api.postArticle], formData);

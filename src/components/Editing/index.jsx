@@ -7,7 +7,8 @@ import Collections from 'material-ui/svg-icons/image/collections';
 import Background from 'material-ui/svg-icons/image/texture';
 import Eject from 'material-ui/svg-icons/action/eject';
 import Button from '../Button';
-import { accentColor, POST_ARTICLE } from '../../variables';
+import { POST_ARTICLE } from '../../variables';
+import { accentColor } from '../vars';
 import CreatingPreview from '../CreatingPreview';
 import { EditingStyled, Toolkits } from './styled';
 

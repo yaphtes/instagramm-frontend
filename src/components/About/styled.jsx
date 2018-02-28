@@ -110,25 +110,6 @@ export const Info = styled.div`
       color: #4b4f6d;
       margin-right: 22px;
     }
-    button#follow {
-      padding: 0;
-      width: 79px;
-      height: 31px;
-      border-radius: 3px;
-      border: 1px solid ${accentColor};
-      font: 700 15px/31px ${mainFont};
-      color: ${accentColor};
-      text-transform: uppercase;
-      text-align: center;
-      background-color: transparent;
-      outline: none;
-      display: inline-block;
-      &:hover {
-        background-color: ${accentColor};
-        color: #fff;
-      }
-      &:active { transform: translateY(1px); }
-    }
   }
   
   > .text {

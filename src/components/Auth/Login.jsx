@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { GET_USER, accentColor } from '../../variables';
+import { GET_USER } from '../../variables';
+import { accentColor, mainColor } from '../vars';
 import TextField from 'material-ui/TextField';
 import Button from '../Button';
 import { Auth, Form } from './styled';
@@ -44,7 +45,7 @@ class Login extends Component {
       <Auth>
         <div className="wrap">
           <h3>Log in</h3>
-          <Form ref="form" onSubmit={this.handleLogin}>
+          <Form ref="form" onSubmit={this.handleLogin} fillColor={mainColor}>
             <TextField
               value={username}
               floatingLabelText="Username"

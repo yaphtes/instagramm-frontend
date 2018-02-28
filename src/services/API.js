@@ -137,10 +137,9 @@ class Api {
         if (res.status === 200) {
           return res.json();
         } else if (res.status === 422) {
-          // TODO: обработать
           console.log(res.statusText);
         }
-      })
+      });
   }
 
   getUserByToken(token) {
@@ -154,6 +153,21 @@ class Api {
     return fetch(request)
       .then(res => res.json())
       .then(user => user)
+      .catch(err => { throw err });
+  }
+
+  deleteUser(id) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/user`, {
+      method: 'delete',
+      headers,
+      body: JSON.stringify({ id })
+    });
+
+    return fetch(request)
+      .then(res => res.status)
+      .then(status => status)
       .catch(err => { throw err });
   }
 

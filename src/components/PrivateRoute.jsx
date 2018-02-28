@@ -11,6 +11,10 @@ class PrivateRoute extends Component {
     this.token = localStorage.getItem('jwt');
   }
 
+  componentWillReceiveProps() {
+    this.token = localStorage.getItem('jwt');
+  }
+
   componentDidMount() {
     const { handleGetUserByToken } = this.props;
     handleGetUserByToken(this.token);

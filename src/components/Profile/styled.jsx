@@ -1,5 +1,18 @@
-import { Wrap } from '../extends';
+import { Wrap, ResetAutofill } from '../extends';
 import { mainColor, mainShadow, mainFont, accentColor } from '../vars';
+
+export const Form = ResetAutofill.extend`
+  background-color: #fff;
+  padding: 20px 40px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  box-shadow: ${mainShadow};
+`;
 
 export const ProfileStyled = Wrap.extend`
   padding-top: 20px;
@@ -13,19 +26,6 @@ export const ProfileStyled = Wrap.extend`
     color: ${accentColor};
   }
 
-  .data {
-    background-color: #fff;
-    padding: 20px 40px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
-    max-width: 500px;
-    box-shadow: ${mainShadow};
-  }
-
   .gender-title {
     font: 400 18px/1em ${mainFont};
     text-align: center;
@@ -36,5 +36,11 @@ export const ProfileStyled = Wrap.extend`
     display: flex;
     justify-content: space-between !important;
     flex-direction: column;
+  }
+
+  .remove-user {
+    display: block !important;
+    margin: 40px auto 0 !important;
+    color: red !important;
   }
 `;

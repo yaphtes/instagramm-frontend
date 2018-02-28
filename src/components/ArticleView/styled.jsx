@@ -1,5 +1,5 @@
 import { Wrap } from '../extends';
 
-export const Article = Wrap.extend`
+export const ArticleViewStyled = Wrap.extend`
 
 `;

@@ -2,6 +2,10 @@ export const POST_USER = 'POST_USER';
 export const POST_USER_SUCCEEDED = 'POST_USER_SUCCEEDED';
 export const POST_USER_FAILED = 'POST_USER_FAILED';
 
+export const DELETE_USER = 'DELETE_USER';
+export const DELETE_USER_SUCCEEDED = 'DELETE_USER_SUCCEEDED';
+export const DELETE_USER_FAILED = 'DELETE_USER_FAILED';
+
 export const GET_USER = 'GET_USER';
 export const GET_USER_SUCCEEDED = 'GET_USER_SUCCEEDED';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
@@ -40,6 +44,5 @@ export const fileServer = 'http://localhost:8000';
 export const localServer = 'http://localhost:3000'
 
 
-export const accentColor = '#3b8ede';
 export const usernameRegexp = /[a-z]{1,1}[\w]{3,}/;
 export const passwordRegexp = /[a-z0-9]{4,}/;

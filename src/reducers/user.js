@@ -7,7 +7,8 @@ import {
   PUT_AVATAR_SUCCEEDED,
   DELETE_AVATAR_SUCCEEDED,
   POST_ARTICLE_SUCCEEDED,
-  DELETE_ARTICLE_SUCCEEDED
+  DELETE_ARTICLE_SUCCEEDED,
+  DELETE_USER_SUCCEEDED
 } from '../variables';
 
 import initialState from '../store/initialState';
@@ -17,11 +18,14 @@ const { user: initialUser } = initialState;
 // TODO: Обработать фейлы
 export default function user(state = initialUser, { type, payload }) {
   switch (type) {
+    case DELETE_USER_SUCCEEDED:
+      return {};
+
     case DELETE_ARTICLE_SUCCEEDED:
       return {
         ...state,
         posts: state.posts.filter(item => item !== payload)
-      }
+      };
 
     case POST_ARTICLE_SUCCEEDED:
       return {

@@ -8,7 +8,8 @@ import {
   PUT_AVATAR,
   DELETE_AVATAR,
   POST_ARTICLE,
-  DELETE_ARTICLE
+  DELETE_ARTICLE,
+  DELETE_USER
 } from '../variables';
 import {
   postUser,
@@ -17,7 +18,8 @@ import {
   getUserByToken,
   putUser,
   putAvatar,
-  deleteAvatar
+  deleteAvatar,
+  deleteUser
 } from'./users';
 import {
   postArticle,
@@ -32,6 +34,7 @@ function* watchUserSagas() {
   yield takeLatest(PUT_USER, putUser);
   yield takeLatest(PUT_AVATAR, putAvatar);
   yield takeLatest(DELETE_AVATAR, deleteAvatar);
+  yield takeLatest(DELETE_USER, deleteUser);
 }
 
 function* watchPostSagas() {

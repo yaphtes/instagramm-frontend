@@ -4,11 +4,21 @@ import { Wrap } from '../extends';
 
 export const PostsStyled = Wrap.extend`
   background-color: ${mainColor};
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
 
   .publications {
     max-width: 614px;
     display: flex;
     flex-direction: column;
+    margin-right: 40px;
+  }
+
+  .subs {
+    flex-basis: 300px;
   }
 
   .post {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Loader from '../Loader';
 import api from '../../services/api';
-import { Article } from './styled';
+import { ArticleViewStyled } from './styled';
 
 export default class ArticleView extends Component {
   state = {
@@ -21,9 +20,9 @@ export default class ArticleView extends Component {
     
     if (loaded) {
       return (
-        <Article>
-          hELLO
-        </Article>
+        <ArticleViewStyled>
+          Hello
+        </ArticleViewStyled>
       );
     } else {
       return <Loader/>

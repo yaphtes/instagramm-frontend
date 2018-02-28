@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
 import { PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
+import { accentColor } from '../vars';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
+import ActionButton from 'material-ui/FloatingActionButton';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
+
 
 class About extends Component {
   state = { modalIsOpen: false };
@@ -50,7 +54,15 @@ class About extends Component {
   }
 
   render() {
-    const { username, firstname, lastname, currentAvatar, about, id } = this.props;
+    const {
+      username,
+      firstname,
+      lastname,
+      currentAvatar,
+      about,
+      id,
+      isMyUser
+    } = this.props;
     const { modalIsOpen } = this.state;
 
     return (
@@ -76,8 +88,14 @@ class About extends Component {
         }
         <Info>
           <div className="username">
-            <span>{username} </span>
-            <button id="follow">follow</button>
+            <span>{username}</span>
+            {!isMyUser ?
+              <ActionButton
+                backgroundColor={accentColor}>
+                <PersonAdd />
+              </ActionButton>
+              : null
+            }
           </div>
           <div className="text">
             <span className="name">{firstname} </span>
@@ -92,9 +110,9 @@ class About extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-
-  
+function mapStateToProps(state) {
+  const { user } = state;
+  const { isMyUser } = state;  
 
   return {
     id: user._id,
@@ -102,7 +120,8 @@ function mapStateToProps({ user }) {
     username: user.username,
     firstname: user.firstname,
     lastname: user.lastname,
-    about: user.about
+    about: user.about,
+    isMyUser
   };
 }
 

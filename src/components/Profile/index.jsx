@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from '../Loader';
-import { PUT_USER, accentColor, usernameRegexp } from '../../variables';
+import { PUT_USER, DELETE_USER, usernameRegexp } from '../../variables';
+import { accentColor } from '../vars';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 import CheckedIcon from 'material-ui/svg-icons/toggle/radio-button-checked';
 import UncheckedIcon from 'material-ui/svg-icons/toggle/radio-button-unchecked';
 import { RadioButtonGroup, RadioButton } from 'material-ui/RadioButton';
 import { orange600 } from 'material-ui/styles/colors';
 import Button from '../Button';
-import { ProfileStyled } from './styled';
+import { ProfileStyled, Form } from './styled';
 
 
 class Profile extends Component {
@@ -44,7 +46,7 @@ class Profile extends Component {
     event.preventDefault();
     const { usernameIsValid } = this.state;
     const { handlePutUser, id } = this.props;
-    const { form } = this.refs;
+    const form = this.form;
     const username = form.username.value;
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
@@ -65,6 +67,14 @@ class Profile extends Component {
     }
   }
 
+  handleRemoveUser = () => {
+    const { id, deleteUser } = this.props;
+    const answer = window.confirm('Confirm user deletion.\nYou will not be able to undo the action.');
+    if (answer) {
+      deleteUser(id);
+    } else return;
+  }
+
   render() {
     const dataIsLoaded = Boolean(this.props.username);
     const { usernameIsValid, usernameInvalidInfo } = this.state;
@@ -80,7 +90,7 @@ class Profile extends Component {
       return (
         <ProfileStyled>
           <h3 className="head">My Profile</h3>
-          <form ref="form" className="data" onSubmit={this.handleSubmit}>
+          <Form innerRef={val => this.form = val} onSubmit={this.handleSubmit} fillColor="#fff">
             <TextField
               name="username"
               fullWidth={true}
@@ -146,7 +156,8 @@ class Profile extends Component {
               type="submit"
               label="Submit"
               backgroundColor={accentColor}/>
-          </form>
+          </Form>
+          <FlatButton label="Remove user" className="remove-user" onClick={this.handleRemoveUser} />
         </ProfileStyled>
       );
     } else {
@@ -170,7 +181,11 @@ function mapDispatchToProps(dispatch) {
   return {
     handlePutUser(user) {
       dispatch({ type: PUT_USER, payload: user });
-    }
+    },
+
+    deleteUser(id) {
+      dispatch({ type: DELETE_USER, payload: id });
+    }    
   };
 }
 

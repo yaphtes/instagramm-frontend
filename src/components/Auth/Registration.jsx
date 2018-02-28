@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { POST_USER, accentColor, usernameRegexp, passwordRegexp } from '../../variables';
+import { POST_USER, usernameRegexp, passwordRegexp } from '../../variables';
+import { accentColor, mainColor } from '../vars';
 import TextField from 'material-ui/TextField';
 import { orange600 } from 'material-ui/styles/colors';
 import Button from '../Button';
@@ -110,7 +111,7 @@ class Registration extends Component {
       <Auth>
         <div className="wrap">
           <h3>Sign up</h3>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit} fillColor={mainColor}>
             <TextField
               value={username}
               fullWidth={true}

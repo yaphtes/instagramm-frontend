@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { accentColor } from '../../variables';
+import { accentColor } from '../vars';
 import { NavLink, Route } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
