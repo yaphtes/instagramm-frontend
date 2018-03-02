@@ -9,21 +9,65 @@ import Feed from 'material-ui/svg-icons/communication/rss-feed';
 import Account from 'material-ui/svg-icons/action/account-circle';
 import FlatButton from 'material-ui/FlatButton';
 import Home from 'material-ui/svg-icons/action/home';
+import FindingUsers from './FindingUsers';
 import { HeaderStyled, WrapStyled } from './styled';
+import { rest } from '../../variables';
 
 
 class Header extends Component {
+  state = {
+    findingUsers: []
+  }
+
+  handleChangeSearch = event => {
+    const value = event.target.value;
+    const { username } = this.props;
+    if (this.xhr) this.xhr.abort();
+    if (!value.trim()) return this.setState({ findingUsers: [] });
+    const xhr = this.xhr = new XMLHttpRequest();
+    xhr.open('get', `${rest}/users-by-fragment?fragment=${value}`);
+    xhr.setRequestHeader('x-jwt', localStorage.getItem('jwt'));
+    xhr.send();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status !== 200) return;
+      let users = JSON.parse(xhr.response);
+      users = users.filter(user => user.username !== username);
+      this.setState({ findingUsers: users });
+    };
+  }
+
+  handleChangeRoute = () => {
+    this.refs.search.value = '';
+    this.setState({ findingUsers: [] });
+  }
+
+  handleCloseModal = () => {
+    this.refs.search.value = '';
+    this.setState({ findingUsers: [] });
+  }
+
   render() {
     const { handleLogout } = this.props;
     const isAuthenticated = localStorage.getItem('jwt');
+    const { findingUsers } = this.state;
   
     return (
       <HeaderStyled>
         <WrapStyled>
           <Link to="/" className="logo" tabIndex="-1">Our Thoughts</Link>
           <div className="search">
-            <input placeholder="Search" type="text"/>
+            <input onChange={this.handleChangeSearch} ref="search" placeholder="Search" type="text"/>
             <i className="material-icons">search</i>
+            <i className="material-icons">cancel</i>
+            {findingUsers.length ?
+              <FindingUsers
+                users={findingUsers}
+                onChangeRoute={this.handleChangeRoute}
+                onCloseModal={this.handleCloseModal}
+              />
+              : null
+            }
           </div>
           <div className="navigation">
             {isAuthenticated ?
@@ -47,6 +91,10 @@ class Header extends Component {
   }
 }
 
+function mapStateToProps({ user }) {
+  return { username: user.username };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     handleLogout() {
@@ -55,4 +103,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Header));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

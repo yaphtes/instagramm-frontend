@@ -1,20 +1,48 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import About from './About';
 import { connect } from 'react-redux';
 import Posts from './Posts';
+import { IS_MY_USER } from '../variables';
 
-function Home({ posts }) {
-  return (
-    <Fragment>
-      <About />
-      <Posts posts={posts} />
-    </Fragment>
-  );
+class Home extends Component {
+  changeUser() {
+    const { changeIsMyUser } = this.props;
+    const { path } = this.props.match;
+    if (path.startsWith('/user')) {
+      changeIsMyUser(false)
+    } else if (!path.startsWith('/user')) {
+      changeIsMyUser(true);
+    }
+  }
+
+  componentDidMount() {
+    this.changeUser();
+  }
+
+  componentDidUpdate() {
+    this.changeUser();
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <About />
+        <Posts />
+      </Fragment>
+    );
+  }
 }
 
-
-function mapStateToProps({ user }) {
-  return { posts: user.posts };
+function mapStateToProps({ isMyUser }) {
+  return { isMyUser };
 }
 
-export default connect(mapStateToProps)(Home);
+function mapDispatchToProps(dispatch) {
+  return {
+    changeIsMyUser(payload) {
+      dispatch({ type: IS_MY_USER, payload });
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

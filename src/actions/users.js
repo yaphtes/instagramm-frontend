@@ -16,9 +16,10 @@ import {
   DELETE_AVATAR_SUCCEEDED,
   DELETE_AVATAR_FAILED,
   DELETE_USER_FAILED,
-  DELETE_USER_SUCCEEDED
+  DELETE_USER_SUCCEEDED,
+  IS_MY_USER_CHANGED,
+  FETCHING
 } from '../variables';
-import { fetching } from './fetching';
 
 
 export function* deleteAvatar({ payload }) {
@@ -42,11 +43,9 @@ export function* putAvatar({ payload: formData }) {
 
 export function* deleteUser({ payload }) {
   try {
-    yield fetching(true);
     yield call([api, api.deleteUser], payload);
     yield put({ type: DELETE_USER_SUCCEEDED });
     yield call([localStorage, localStorage.removeItem], 'jwt');
-    yield fetching(false);
   } catch(err) {
     yield put({ type: DELETE_USER_FAILED, payload: err });
   }
@@ -76,10 +75,10 @@ export function* postUser({ payload }) {
 // TODO: обработать случай, когда пользователь не найден (заблокирован) на бэке
 export function* getUserByToken({ payload }) {
   try {
-    yield fetching(true);
+    yield put({ type: FETCHING, payload: true });
     const user = yield call([api, api.getUserByToken], payload);
     yield put({ type: GET_USER_BY_TOKEN_SUCCEEDED, payload: user });
-    yield fetching(false);
+    yield put({ type: FETCHING, payload: false });
   } catch (err) {
     yield put({ type: GET_USER_BY_TOKEN_FAILED, payload: err });
   }
@@ -100,4 +99,8 @@ export function* logoutUser() {
   yield put({ type: USER_LOGOUTED_SUCCEEDED });
   yield put(replace('/login'));
   yield call([localStorage, localStorage.clear]);
+}
+
+export function* changeIsMyUser({ payload }) {
+  yield put({ type: IS_MY_USER_CHANGED, payload })
 }

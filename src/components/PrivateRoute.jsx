@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { GET_USER_BY_TOKEN } from '../variables';
+import { GET_USER_BY_TOKEN, FETCHING } from '../variables';
 import Loader from './Loader';
 
 
@@ -23,26 +23,30 @@ class PrivateRoute extends Component {
   render() {
     const { fetching, component: Component, ...rest } = this.props;
 
-    if (this.token) {
-      return <Route {...rest} render={props => (<Component {...props}>
-        {fetching ? <Loader /> : null}
-      </Component>)}/>;
+    if (this.token && !fetching) {
+      return <Route {...rest} render={props => <Component {...props} />}/>;
+    } else if (this.token && fetching) {
+      return <Route {...rest} render={props=> <Loader />} />
     } else {
       return <Redirect to="/login" />;
     }
   }
 }
 
-function mapStateToProps({ fetching }) {
-  return { fetching };
+function mapStateToProps({ fetching, isMyUser }) {
+  return { fetching, isMyUser };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     handleGetUserByToken(token) {
       dispatch({ type: GET_USER_BY_TOKEN, payload: token });
+    },
+
+    setFetching(payload) {
+      dispatch({ type: FETCHING, payload });
     }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateRoute));

@@ -27,6 +27,7 @@ export default function App() {
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/editing" component={Editing} />
           <PrivateRoute path="/post/:postId" component={ArticleView} />
+          <PrivateRoute path="/user/:id" component={Home} />
           <Route path="/registration" component={Registration} />
           <Route path="/login" component={Login} />
           <Route render={props => <div>404</div>} />

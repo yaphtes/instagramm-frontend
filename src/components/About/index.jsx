@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
 import { accentColor } from '../vars';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
@@ -14,7 +15,6 @@ class About extends Component {
   componentDidMount() {
     let { about } = this.props;
     let { aboutElem } = this.refs;
-
     if (about) {
       about = about.replace(/(http|https):\/\/[\w-_]+\.[\w/]+/g, `<a href="$&" target="_blank">$&</a>`);
       aboutElem.innerHTML = about;
@@ -54,14 +54,15 @@ class About extends Component {
   }
 
   render() {
+    const { isMyUser } = this.props;
+    console.log('rendering');
     const {
       username,
       firstname,
       lastname,
       currentAvatar,
       about,
-      id,
-      isMyUser
+      id
     } = this.props;
     const { modalIsOpen } = this.state;
 
@@ -137,4 +138,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(About);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(About));

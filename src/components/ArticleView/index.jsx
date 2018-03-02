@@ -16,7 +16,7 @@ export default class ArticleView extends Component {
   }
 
   render() {
-    const { loaded, article } = this.state;
+    const { loaded } = this.state;
     
     if (loaded) {
       return (

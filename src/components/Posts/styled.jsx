@@ -15,6 +15,7 @@ export const PostsStyled = Wrap.extend`
     display: flex;
     flex-direction: column;
     margin-right: 40px;
+    width: 100%;
   }
 
   .subs {

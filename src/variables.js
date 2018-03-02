@@ -1,3 +1,6 @@
+export const IS_MY_USER = 'IS_MY_USER';
+export const IS_MY_USER_CHANGED = 'IS_MY_USER_CHANGED';
+
 export const POST_USER = 'POST_USER';
 export const POST_USER_SUCCEEDED = 'POST_USER_SUCCEEDED';
 export const POST_USER_FAILED = 'POST_USER_FAILED';
@@ -37,6 +40,7 @@ export const DELETE_ARTICLE_SUCCEEDED = 'DELETE_ARTICLE_SUCCEDED';
 export const DELETE_ARTICLE_FAILED = 'DELETE_ARTICLE_FAILED';
 
 export const FETCHING = 'FETCHING';
+export const FETCHING_CHANGED = 'FETCHING_CHANGED';
 
 
 export const rest = 'http://localhost:8000/api';

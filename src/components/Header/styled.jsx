@@ -2,6 +2,17 @@ import styled from 'styled-components';
 import { Wrap } from '../extends';
 import { accentColor, testFont, mainColor, mainFont } from '../vars';
 
+
+export const FindingUsersStyled = styled.div`
+  position: absolute;
+  z-index: 2;
+  width: 300px;
+  background-color: #fff;
+  left: -42px;
+  top: 39px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 6px;
+`;
+
 export const HeaderStyled = styled.header`
   background-color: #fff;
   border-bottom: 1px solid #edeeee;
@@ -27,22 +38,33 @@ export const HeaderStyled = styled.header`
       background-color: ${mainColor};
       outline: none;
       text-align: center;
-      padding-left: 28px;
-      padding-right: 20px;
+      padding: 0 28px;
       font: 300 15px/28px ${mainFont};
       color: #84878a;
       &:focus {
         text-align: left;
         background-color: #fff;
-        + i.material-icons { left: 8px; }
+        ~ i.material-icons:first-of-type { left: 8px; }
+        ~ i.material-icons:last-of-type {
+          display: block;
+          right: 8px;
+        }
       }
     }
     i.material-icons {
-      position: absolute;
-      color: #c9c9c9;
-      font-size: 18px;
-      top: calc(50% - 9px);
-      left: 66px;
+      &:first-of-type, &:last-of-type {
+        position: absolute;
+        color: #c9c9c9;
+        font-size: 18px;
+        top: calc(50% - 9px);
+      }
+      &:first-of-type {
+        left: 66px;
+      }
+      &:last-of-type {
+        display: none;
+        cursor: pointer;
+      }
     }
   }
 

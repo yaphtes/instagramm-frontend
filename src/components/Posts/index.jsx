@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PostPreview from './PostPreview';
 import { PostsStyled } from './styled';
 import List from '../List';
@@ -58,4 +59,4 @@ function mapStateToProps({ user }) {
   return { posts };
 }
 
-export default connect(mapStateToProps)(Posts);
+export default withRouter(connect(mapStateToProps)(Posts));

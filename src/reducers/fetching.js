@@ -1,8 +1,8 @@
-import { FETCHING } from '../variables';
+import { FETCHING_CHANGED } from '../variables';
 
-export default function fetching(state = false, { type, payload }) {
+export default function fetching(state = null, { type, payload }) {
   switch(type) {
-    case FETCHING:
+    case FETCHING_CHANGED:
       return payload;
     
     default:
