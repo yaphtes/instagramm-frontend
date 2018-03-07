@@ -10,8 +10,8 @@ import {
   POST_ARTICLE,
   DELETE_ARTICLE,
   DELETE_USER,
-  IS_MY_USER,
-  FETCHING
+  FETCHING,
+  GET_OUTER_USER_BY_ID
 } from '../variables';
 import {
   postUser,
@@ -21,14 +21,15 @@ import {
   putUser,
   putAvatar,
   deleteAvatar,
-  deleteUser,
-  changeIsMyUser
+  deleteUser
 } from'./users';
 import {
   postArticle,
   deleteArticle
 } from './posts';
+import { getOuterUserById } from './outerUsers';
 import { fetching } from './fetching';
+
 
 function* watchUserSagas() {
   yield takeLatest(POST_USER, postUser);
@@ -39,7 +40,10 @@ function* watchUserSagas() {
   yield takeLatest(PUT_AVATAR, putAvatar);
   yield takeLatest(DELETE_AVATAR, deleteAvatar);
   yield takeLatest(DELETE_USER, deleteUser);
-  yield takeLatest(IS_MY_USER, changeIsMyUser);
+}
+
+function* watchOuterUsersSagas() {
+  yield takeLatest(GET_OUTER_USER_BY_ID, getOuterUserById);
 }
 
 function* watchPostSagas() {
@@ -54,6 +58,7 @@ function* watchFetchingSagas() {
 export default function* rootSaga() {
   yield all([
     watchUserSagas(),
+    watchOuterUsersSagas(),
     watchPostSagas(),
     watchFetchingSagas()
   ]);

@@ -31,6 +31,7 @@ export default function App() {
           <Route path="/registration" component={Registration} />
           <Route path="/login" component={Login} />
           <Route render={props => <div>404</div>} />
+          <Route />
         </Switch>
       </Content>
       <Footer />

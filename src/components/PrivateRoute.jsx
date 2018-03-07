@@ -23,13 +23,15 @@ class PrivateRoute extends Component {
   render() {
     const { fetching, component: Component, ...rest } = this.props;
 
-    if (this.token && !fetching) {
-      return <Route {...rest} render={props => <Component {...props} />}/>;
-    } else if (this.token && fetching) {
-      return <Route {...rest} render={props=> <Loader />} />
-    } else {
-      return <Redirect to="/login" />;
-    }
+    return <Route {...rest} render={props => (
+      this.token ?
+        !fetching ?
+          <Component {...props} />
+          :
+          <Loader />
+        :
+        <Redirect to="/login" />
+    )} />;
   }
 }
 

@@ -9,7 +9,6 @@ import {
   POST_ARTICLE_SUCCEEDED,
   DELETE_ARTICLE_SUCCEEDED,
   DELETE_USER_SUCCEEDED,
-  IS_MY_USER_CHANGED
 } from '../variables';
 
 import initialState from '../store/initialState';
@@ -57,17 +56,6 @@ export default function user(state = initialUser, { type, payload }) {
 
     case USER_LOGOUTED_SUCCEEDED:
       return {};
-
-    default:
-      return state;
-  }
-}
-
-
-export function isMyUser(state = true, { type, payload }) {
-  switch(type) {
-    case IS_MY_USER_CHANGED:
-      return payload;
 
     default:
       return state;

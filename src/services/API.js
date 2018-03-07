@@ -12,6 +12,20 @@ class Api {
     Api.instance = this;
   }
 
+  getOuterUserById(id) {
+    const { headers } = this;
+    this.withUri();
+    const request = new Request(`${rest}/outer-user-by-id?id=${id}`, {
+      method: 'get',
+      headers
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(outerUser => outerUser)
+      .catch(err => { throw err });
+  }
+
   deleteArticle({ postId, userId }) {
     const { headers } = this;
     this.withJson();

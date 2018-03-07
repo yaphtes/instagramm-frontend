@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { List, ListItem } from 'material-ui/List';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Avatar from 'material-ui/Avatar';
 import { fileServer } from '../../variables';
 import { FindingUsersStyled } from './styled';
+import { GET_OUTER_USER_BY_ID } from '../../variables';
 
 
 class FindingUsers extends Component {
@@ -13,9 +15,10 @@ class FindingUsers extends Component {
   }
 
   handleClick = (userId) => {
-    const { history, onChangeRoute } = this.props;
+    const { history, onChangeRoute, getOuterUserById } = this.props;
     history.push(`/user/${userId}`);
     onChangeRoute();
+    getOuterUserById(userId);
   }
 
   listner({ target }) {
@@ -55,4 +58,14 @@ class FindingUsers extends Component {
   }
 }
 
-export default withRouter(FindingUsers);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getOuterUserById(id) {
+      dispatch({ type: GET_OUTER_USER_BY_ID, payload: id });
+    }
+  };
+}
+
+
+export default withRouter(connect(null, mapDispatchToProps)(FindingUsers));

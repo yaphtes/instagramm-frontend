@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
-import user, { isMyUser } from './user';
+import user from './user';
+import outerUser from './outerUser';
 import fetching from './fetching';
 
 export default combineReducers({
   user,
-  isMyUser,
+  outerUser,
   fetching,
   router
 });

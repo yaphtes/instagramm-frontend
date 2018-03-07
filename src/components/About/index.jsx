@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
+import { GET_OUTER_USER_BY_ID, PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
 import { accentColor } from '../vars';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
 import ActionButton from 'material-ui/FloatingActionButton';
@@ -12,13 +12,16 @@ import PersonAdd from 'material-ui/svg-icons/social/person-add';
 class About extends Component {
   state = { modalIsOpen: false };
 
-  componentDidMount() {
-    let { about } = this.props;
+  async componentDidMount() {
+    let { about, match, getOuterUserById } = this.props;
     let { aboutElem } = this.refs;
     if (about) {
       about = about.replace(/(http|https):\/\/[\w-_]+\.[\w/]+/g, `<a href="$&" target="_blank">$&</a>`);
       aboutElem.innerHTML = about;
     }
+
+    const { id } = match.params;
+    if (id) getOuterUserById(id);
   }
 
   handleOpenModal = () => {
@@ -34,13 +37,13 @@ class About extends Component {
   }
 
   onUpdateAvatar = ({ target }) => {
-    const { id, handlePutAvatar, currentAvatar } = this.props;
-    const avatar = target.files[0];
+    const { _id: id, handlePutAvatar, avatar } = this.props.user;
+    const file = target.files[0];
     
-    if (avatar) {
+    if (file) {
       const formData = new FormData();
-      if (currentAvatar) formData.set('currentAvatar', currentAvatar);
-      formData.set('avatar', avatar);
+      if (file) formData.set('currentAvatar', avatar);
+      formData.set('avatar', file);
       formData.set('id', id);
 
       handlePutAvatar(formData);
@@ -49,31 +52,22 @@ class About extends Component {
   }
 
   onRemoveAvatar = () => {
-    const { id, currentAvatar, handleDeleteAvatar } = this.props;
-    handleDeleteAvatar({ id, currentAvatar });
+    const { _id: id, avatar, handleDeleteAvatar } = this.props.user;
+    handleDeleteAvatar({ id, avatar });
   }
 
   render() {
-    const { isMyUser } = this.props;
-    console.log('rendering');
-    const {
-      username,
-      firstname,
-      lastname,
-      currentAvatar,
-      about,
-      id
-    } = this.props;
     const { modalIsOpen } = this.state;
+    const { isMyUser, user } = this.props;
+    const { username, firstname, lastname, avatar, about, _id: id } = user;
 
     return (
       <Hero>
         <Avatar>
           <button onClick={this.handleOpenModal} />
-          {currentAvatar ?
-            <img src={`${fileServer}/${id}/${currentAvatar}`} alt="" />
-            :
-            null
+          {avatar ?
+            <img src={`${fileServer}/${id}/${avatar}`} alt="" />
+            : null
           }
         </Avatar>
         {modalIsOpen ? 
@@ -111,19 +105,8 @@ class About extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { user } = state;
-  const { isMyUser } = state;  
-
-  return {
-    id: user._id,
-    currentAvatar: user.avatar,
-    username: user.username,
-    firstname: user.firstname,
-    lastname: user.lastname,
-    about: user.about,
-    isMyUser
-  };
+function mapStateToProps({ user, outerUser }) {
+  return { user, outerUser };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -134,6 +117,10 @@ function mapDispatchToProps(dispatch) {
 
     handleDeleteAvatar({ id, currentAvatar }) {
       dispatch({ type: DELETE_AVATAR, payload: { id, currentAvatar }});
+    },
+
+    getOuterUserById(id) {
+      dispatch({ type: GET_OUTER_USER_BY_ID, payload: id });
     }
   };
 }

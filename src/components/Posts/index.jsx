@@ -47,16 +47,8 @@ class Posts extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  let posts;
-  const isMainUser = true;
-  if (isMainUser) {
-    posts = user.posts;
-  } else {
-    // посты пользователя с другим id
-    posts = [];
-  }
-  return { posts };
+function mapStateToProps({ user, outerUser }) {
+  return { posts: user.posts };
 }
 
 export default withRouter(connect(mapStateToProps)(Posts));

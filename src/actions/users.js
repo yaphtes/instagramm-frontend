@@ -17,7 +17,6 @@ import {
   DELETE_AVATAR_FAILED,
   DELETE_USER_FAILED,
   DELETE_USER_SUCCEEDED,
-  IS_MY_USER_CHANGED,
   FETCHING
 } from '../variables';
 
@@ -99,8 +98,4 @@ export function* logoutUser() {
   yield put({ type: USER_LOGOUTED_SUCCEEDED });
   yield put(replace('/login'));
   yield call([localStorage, localStorage.clear]);
-}
-
-export function* changeIsMyUser({ payload }) {
-  yield put({ type: IS_MY_USER_CHANGED, payload })
 }
