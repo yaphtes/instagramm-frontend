@@ -10,15 +10,5 @@
     "posts": []
   },
 
-  "outerUser": {
-    "_id": "",
-    "username": "",
-    "firstname": "",
-    "lastname": "",
-    "about": "",
-    "avatar": null,
-    "posts": []
-  },
-
   "fetching": true
 }

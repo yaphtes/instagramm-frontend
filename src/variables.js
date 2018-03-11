@@ -1,3 +1,6 @@
+export const IS_MY_USER = 'IS_MY_USER';
+export const IS_MY_USER_CHANGED = 'IS_MY_USER_CHANGED';
+
 export const POST_USER = 'POST_USER';
 export const POST_USER_SUCCEEDED = 'POST_USER_SUCCEEDED';
 export const POST_USER_FAILED = 'POST_USER_FAILED';

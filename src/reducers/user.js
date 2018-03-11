@@ -8,7 +8,7 @@ import {
   DELETE_AVATAR_SUCCEEDED,
   POST_ARTICLE_SUCCEEDED,
   DELETE_ARTICLE_SUCCEEDED,
-  DELETE_USER_SUCCEEDED,
+  DELETE_USER_SUCCEEDED
 } from '../variables';
 
 import initialState from '../store/initialState';

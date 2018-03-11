@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { GET_OUTER_USER_BY_ID, PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
+import { PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
 import { accentColor } from '../vars';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
 import ActionButton from 'material-ui/FloatingActionButton';
@@ -12,16 +12,13 @@ import PersonAdd from 'material-ui/svg-icons/social/person-add';
 class About extends Component {
   state = { modalIsOpen: false };
 
-  async componentDidMount() {
-    let { about, match, getOuterUserById } = this.props;
+  componentDidMount() {
+    let { about } = this.props;
     let { aboutElem } = this.refs;
     if (about) {
       about = about.replace(/(http|https):\/\/[\w-_]+\.[\w/]+/g, `<a href="$&" target="_blank">$&</a>`);
       aboutElem.innerHTML = about;
     }
-
-    const { id } = match.params;
-    if (id) getOuterUserById(id);
   }
 
   handleOpenModal = () => {
@@ -58,7 +55,7 @@ class About extends Component {
 
   render() {
     const { modalIsOpen } = this.state;
-    const { isMyUser, user } = this.props;
+    const { user, pathname } = this.props;
     const { username, firstname, lastname, avatar, about, _id: id } = user;
 
     return (
@@ -84,10 +81,12 @@ class About extends Component {
         <Info>
           <div className="username">
             <span>{username}</span>
-            {!isMyUser ?
+            {pathname.startsWith('/user') ?
               <ActionButton
-                backgroundColor={accentColor}>
-                <PersonAdd />
+                backgroundColor={accentColor}
+                mini={true}
+              >
+                <PersonAdd style={{ width: '22px' }} />
               </ActionButton>
               : null
             }
@@ -105,8 +104,8 @@ class About extends Component {
   }
 }
 
-function mapStateToProps({ user, outerUser }) {
-  return { user, outerUser };
+function mapStateToProps({ router }) {
+  return { pathname: router.location.pathname };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -117,10 +116,6 @@ function mapDispatchToProps(dispatch) {
 
     handleDeleteAvatar({ id, currentAvatar }) {
       dispatch({ type: DELETE_AVATAR, payload: { id, currentAvatar }});
-    },
-
-    getOuterUserById(id) {
-      dispatch({ type: GET_OUTER_USER_BY_ID, payload: id });
     }
   };
 }

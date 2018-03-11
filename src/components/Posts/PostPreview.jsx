@@ -21,8 +21,8 @@ class PostPreview extends Component {
   };
 
   async componentDidMount() {
-    const { postId, handleGetPostPreview } = this.props;
-    const postPreview = await handleGetPostPreview(postId);
+    const { postId } = this.props;
+    const postPreview = await api.getPostPreviewById(postId);
     let { preview, title, content, date } = postPreview;
     if (!preview) preview = null;
     this.setState({ preview, title, content, date });
@@ -45,7 +45,8 @@ class PostPreview extends Component {
   }
 
   render() {
-    const { avatar, userId, postId } = this.props;
+    const { user, postId } = this.props;
+    const { _id: userId, avatar } = user;
     const { title, content, preview } = this.state;
 
     return (
@@ -80,22 +81,12 @@ class PostPreview extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  return {
-    avatar: user.avatar,
-    userId: user._id
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {
-    handleGetPostPreview(postId) {
-      return api.getPostPreviewById(postId);
-    },
-
     handleDeleteArticleById({ postId, userId }) {
       dispatch({ type: DELETE_ARTICLE, payload: { postId, userId }});
     }
   };
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostPreview));
+
+export default withRouter(connect(null, mapDispatchToProps)(PostPreview));

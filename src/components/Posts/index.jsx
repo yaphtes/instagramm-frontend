@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import PostPreview from './PostPreview';
 import { PostsStyled } from './styled';
 import List from '../List';
 
-class Posts extends Component {
+export default class Posts extends Component {
   state = {
     addingIsOpen: false
   };
 
   render() {
-    const { posts } = this.props;
+    const { user } = this.props;
     const users = [
       {
         userId: '5a9425cece62621f7021a55e',
@@ -32,9 +30,9 @@ class Posts extends Component {
     return (
       <PostsStyled>
         <div className="publications">
-          {posts.map((postId, i) =>
+          {user.posts.map((postId, i) =>
             <div key={i} className="post">
-              <PostPreview postId={postId} />
+              <PostPreview postId={postId} user={user} />
             </div>
           )}
         </div>
@@ -46,9 +44,3 @@ class Posts extends Component {
     );
   }
 }
-
-function mapStateToProps({ user, outerUser }) {
-  return { posts: user.posts };
-}
-
-export default withRouter(connect(mapStateToProps)(Posts));
