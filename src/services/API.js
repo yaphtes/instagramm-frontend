@@ -12,6 +12,34 @@ class Api {
     Api.instance = this;
   }
 
+  removeSubscription({ myId, subscriptionId }) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/remove-subscription`, {
+      method: 'delete',
+      headers,
+      body: JSON.stringify({ myId, subscriptionId })
+    });
+
+    return fetch(request)
+      .then(res => res.status)
+      .catch(err => { throw err });
+  }
+
+  addSubscription({ myId, subscriptionId }) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/add-subscription`, {
+      method: 'post',
+      headers,
+      body: JSON.stringify({ myId, subscriptionId })
+    });
+
+    return fetch(request)
+      .then(res => res.status)
+      .catch(err => { throw err });
+  }
+
   getOuterUserById(id) {
     const { headers } = this;
     this.withUri();

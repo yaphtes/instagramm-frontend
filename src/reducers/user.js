@@ -8,7 +8,9 @@ import {
   DELETE_AVATAR_SUCCEEDED,
   POST_ARTICLE_SUCCEEDED,
   DELETE_ARTICLE_SUCCEEDED,
-  DELETE_USER_SUCCEEDED
+  DELETE_USER_SUCCEEDED,
+  ADD_SUBSCRIPTION_SUCCEEDED,
+  REMOVE_SUBSCRIPTION_SUCCEEDED
 } from '../variables';
 
 import initialState from '../store/initialState';
@@ -18,6 +20,18 @@ const { user: initialUser } = initialState;
 // TODO: Обработать фейлы
 export default function user(state = initialUser, { type, payload }) {
   switch (type) {
+    case REMOVE_SUBSCRIPTION_SUCCEEDED:
+      return {
+        ...state,
+        mySubscriptions: state.mySubscriptions.filter(id => id !== payload)
+      };
+
+    case ADD_SUBSCRIPTION_SUCCEEDED:
+      return {
+        ...state,
+        mySubscriptions: [...state.mySubscriptions, payload]
+      };
+
     case DELETE_USER_SUCCEEDED:
       return {};
 

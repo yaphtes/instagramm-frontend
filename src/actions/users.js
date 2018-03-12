@@ -17,7 +17,11 @@ import {
   DELETE_AVATAR_FAILED,
   DELETE_USER_FAILED,
   DELETE_USER_SUCCEEDED,
-  FETCHING
+  FETCHING,
+  ADD_SUBSCRIPTION_FAILED,
+  ADD_SUBSCRIPTION_SUCCEEDED,
+  REMOVE_SUBSCRIPTION_FAILED,
+  REMOVE_SUBSCRIPTION_SUCCEEDED
 } from '../variables';
 
 
@@ -98,4 +102,22 @@ export function* logoutUser() {
   yield put({ type: USER_LOGOUTED_SUCCEEDED });
   yield put(replace('/login'));
   yield call([localStorage, localStorage.clear]);
+}
+
+export function* addSubscription({ payload }) {
+  try {
+    yield api.addSubscription(payload);
+    yield put({ type: ADD_SUBSCRIPTION_SUCCEEDED, payload: payload.subscriptionId });
+  } catch(err) {
+    yield put({ type: ADD_SUBSCRIPTION_FAILED, payload: err });
+  }
+}
+
+export function* removeSubscription({ payload }) {
+  try {
+    yield api.removeSubscription(payload);
+    yield put({ type: REMOVE_SUBSCRIPTION_SUCCEEDED, payload: payload.subscriptionId });
+  } catch(err) {
+    yield put({ type: REMOVE_SUBSCRIPTION_FAILED, payload: err });
+  }
 }

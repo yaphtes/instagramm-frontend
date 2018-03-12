@@ -7,6 +7,7 @@ import { accentColor } from '../vars';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
 import ActionButton from 'material-ui/FloatingActionButton';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
+import PersonRemove from 'material-ui/svg-icons/content/clear';
 
 
 class About extends Component {
@@ -34,7 +35,8 @@ class About extends Component {
   }
 
   onUpdateAvatar = ({ target }) => {
-    const { _id: id, handlePutAvatar, avatar } = this.props.user;
+    const { handlePutAvatar, user } = this.props;
+    const { _id: id, avatar } = user;
     const file = target.files[0];
     
     if (file) {
@@ -55,7 +57,7 @@ class About extends Component {
 
   render() {
     const { modalIsOpen } = this.state;
-    const { user, pathname } = this.props;
+    const { user, pathname, onAddSubscription, mySubscriptions } = this.props;
     const { username, firstname, lastname, avatar, about, _id: id } = user;
 
     return (
@@ -82,12 +84,19 @@ class About extends Component {
           <div className="username">
             <span>{username}</span>
             {pathname.startsWith('/user') ?
-              <ActionButton
-                backgroundColor={accentColor}
-                mini={true}
-              >
-                <PersonAdd style={{ width: '22px' }} />
-              </ActionButton>
+              mySubscriptions.includes(id) ?
+                <ActionButton
+                  backgroundColor={accentColor}
+                  mini={true}>
+                  <PersonRemove style={{ width: '22px' }} />
+                </ActionButton>
+                :
+                <ActionButton
+                  backgroundColor={accentColor}
+                  mini={true}
+                  onClick={onAddSubscription.bind(null, id)}>
+                  <PersonAdd style={{ width: '22px' }} />
+                </ActionButton>
               : null
             }
           </div>
@@ -104,8 +113,10 @@ class About extends Component {
   }
 }
 
-function mapStateToProps({ router }) {
-  return { pathname: router.location.pathname };
+function mapStateToProps({ router, user }) {
+  const { pathname } = router.location;
+  const { mySubscriptions } = user;
+  return { pathname, mySubscriptions };
 }
 
 function mapDispatchToProps(dispatch) {

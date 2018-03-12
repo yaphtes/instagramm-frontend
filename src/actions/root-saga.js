@@ -10,7 +10,9 @@ import {
   POST_ARTICLE,
   DELETE_ARTICLE,
   DELETE_USER,
-  FETCHING
+  FETCHING,
+  ADD_SUBSCRIPTION,
+  REMOVE_SUBSCRIPTION
 } from '../variables';
 import {
   postUser,
@@ -20,7 +22,9 @@ import {
   putUser,
   putAvatar,
   deleteAvatar,
-  deleteUser
+  deleteUser,
+  addSubscription,
+  removeSubscription
 } from'./users';
 import {
   postArticle,
@@ -30,6 +34,7 @@ import { fetching } from './fetching';
 
 
 function* watchUserSagas() {
+  yield takeLatest(REMOVE_SUBSCRIPTION, removeSubscription);
   yield takeLatest(POST_USER, postUser);
   yield takeLatest(GET_USER, getUser);
   yield takeLatest(USER_LOGOUTED, logoutUser);
@@ -38,6 +43,7 @@ function* watchUserSagas() {
   yield takeLatest(PUT_AVATAR, putAvatar);
   yield takeLatest(DELETE_AVATAR, deleteAvatar);
   yield takeLatest(DELETE_USER, deleteUser);
+  yield takeLatest(ADD_SUBSCRIPTION, addSubscription);
 }
 
 function* watchPostSagas() {
