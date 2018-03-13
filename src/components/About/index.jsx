@@ -57,7 +57,7 @@ class About extends Component {
 
   render() {
     const { modalIsOpen } = this.state;
-    const { user, pathname, onAddSubscription, mySubscriptions } = this.props;
+    const { user, pathname, onAddSubscription, mySubscriptions, onRemoveSubscription } = this.props;
     const { username, firstname, lastname, avatar, about, _id: id } = user;
 
     return (
@@ -84,10 +84,11 @@ class About extends Component {
           <div className="username">
             <span>{username}</span>
             {pathname.startsWith('/user') ?
-              mySubscriptions.includes(id) ?
+              mySubscriptions.find(obj => obj._id === id) ?
                 <ActionButton
                   backgroundColor={accentColor}
-                  mini={true}>
+                  mini={true}
+                  onClick={onRemoveSubscription.bind(null, id)}>
                   <PersonRemove style={{ width: '22px' }} />
                 </ActionButton>
                 :

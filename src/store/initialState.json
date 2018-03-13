@@ -8,8 +8,8 @@
     "about": "",
     "avatar": null,
     "posts": [],
-    "mySubscriptions": [],
-    "subscribers": []
+    "mySubscriptions": [{}],
+    "subscribers": [{}]
   },
 
   "fetching": true

@@ -106,8 +106,8 @@ export function* logoutUser() {
 
 export function* addSubscription({ payload }) {
   try {
-    yield api.addSubscription(payload);
-    yield put({ type: ADD_SUBSCRIPTION_SUCCEEDED, payload: payload.subscriptionId });
+    const sub = yield api.addSubscription(payload);
+    yield put({ type: ADD_SUBSCRIPTION_SUCCEEDED, payload: sub });
   } catch(err) {
     yield put({ type: ADD_SUBSCRIPTION_FAILED, payload: err });
   }
@@ -115,8 +115,8 @@ export function* addSubscription({ payload }) {
 
 export function* removeSubscription({ payload }) {
   try {
-    yield api.removeSubscription(payload);
-    yield put({ type: REMOVE_SUBSCRIPTION_SUCCEEDED, payload: payload.subscriptionId });
+    const removedSub = yield api.removeSubscription(payload);
+    yield put({ type: REMOVE_SUBSCRIPTION_SUCCEEDED, payload: removedSub });
   } catch(err) {
     yield put({ type: REMOVE_SUBSCRIPTION_FAILED, payload: err });
   }

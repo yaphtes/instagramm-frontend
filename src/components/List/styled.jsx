@@ -10,4 +10,9 @@ export const ListStyled = styled.div`
     font: 400 16px/1.5em ${mainFont};
     color: rgba(0, 0, 0, 0.3);
   }
+
+  .list {
+    position: relative;
+    min-height: 52px;
+  }
 `;

@@ -7,10 +7,13 @@ const LoaderStyled = styled.div`
   top: calc(50% - 40px);
 `;
 
-export default function Loader() {
+export default function Loader(props) {
+  const size = props.size || 80;
+  const thickness = props.thickness || 5;
+
   return (
-    <LoaderStyled>
-      <CircularProgress size={80} thickness={5} />;
+    <LoaderStyled style={props.style}>
+      <CircularProgress size={size} thickness={thickness} style={props.type === 'inner' ? {position: 'static', display: 'block', margin: 'auto'} : null} />
     </LoaderStyled>
   );
 }

@@ -45,7 +45,7 @@ class Home extends Component {
 
     return (
       <Fragment>
-        <About user={user} onAddSubscription={this.handleAddSubscription} />
+        <About user={user} onAddSubscription={this.handleAddSubscription} onRemoveSubscription={this.handleRemoveSubscription} />
         <Posts user={user} onRemoveSubscription={this.handleRemoveSubscription} />
       </Fragment>
     );

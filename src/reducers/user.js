@@ -23,7 +23,7 @@ export default function user(state = initialUser, { type, payload }) {
     case REMOVE_SUBSCRIPTION_SUCCEEDED:
       return {
         ...state,
-        mySubscriptions: state.mySubscriptions.filter(id => id !== payload)
+        mySubscriptions: state.mySubscriptions.filter(sub => sub._id !== payload._id)
       };
 
     case ADD_SUBSCRIPTION_SUCCEEDED:

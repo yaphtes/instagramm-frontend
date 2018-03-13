@@ -22,7 +22,8 @@ class Api {
     });
 
     return fetch(request)
-      .then(res => res.status)
+      .then(res => res.json())
+      .then(removedSub => removedSub)
       .catch(err => { throw err });
   }
 
@@ -36,7 +37,8 @@ class Api {
     });
 
     return fetch(request)
-      .then(res => res.status)
+      .then(res => res.json())
+      .then(sub => sub)
       .catch(err => { throw err });
   }
 
