@@ -12,6 +12,20 @@ class Api {
     Api.instance = this;
   }
 
+  getUserAvatarByPostId(postId) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/user-avatar-by-post-id?postId=${postId}`, {
+      method: 'get',
+      headers
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(({ avatar }) => avatar)
+      .catch(err => { throw err });
+  }
+
   removeSubscription({ myId, subscriptionId }) {
     const { headers } = this;
     this.withJson();

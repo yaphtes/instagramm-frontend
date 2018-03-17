@@ -15,6 +15,7 @@ import ArticleView from '../ArticleView';
 import { Content } from './styled';
 import 'normalize.css';
 import './base.css';
+import "react-image-gallery/styles/css/image-gallery.css";
 
 
 export default function App() {

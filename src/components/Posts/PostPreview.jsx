@@ -40,7 +40,8 @@ class PostPreview extends Component {
   }
 
   handleDeleteArticle = () => {
-    const { postId, userId, handleDeleteArticleById } = this.props;
+    const { postId, user, handleDeleteArticleById } = this.props;
+    const { _id: userId } = user;
     handleDeleteArticleById({ postId, userId });
   }
 

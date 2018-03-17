@@ -55,7 +55,7 @@ class List extends Component {
             {users.length ?
               users.map(({ _id: id, avatar, firstname, lastname, username }, i) => <ListItem
                 key={id}
-                leftAvatar={<Avatar src={`${fileServer}/${id}/${avatar}`} />}
+                leftAvatar={<Avatar src={avatar ? `${fileServer}/${id}/${avatar}` : null} />}
                 primaryText={firstname ? lastname ? `${firstname} ${lastname}` : firstname : username}
                 secondaryText={firstname || lastname ? username : null}
                 onClick={() => history.push(`/user/${id}`)}
