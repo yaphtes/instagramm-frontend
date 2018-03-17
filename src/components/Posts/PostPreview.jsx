@@ -46,36 +46,7 @@ class PostPreview extends Component {
     const { _id: userId } = user;
     handleDeleteArticleById({ postId, userId });
   }
-
-  // normalizeContent(content) {
-  //   const dots = '...';
-  //   const indentAsSymbols = 2;
-  //   let maxSymbols = 1020 - dots.length;
-  //   const maxSymbolsPerLine = 69;
-  //   const paragraphsArr = content.split('\n').filter(paragraph => Boolean(paragraph.trim().length));
-  //   const lines = paragraphsArr.length;
-  //   maxSymbols -= lines * 2;
-
-  //   let paragraphs = [];
-  //   let counter = 0;
-  //   paragraphsArr.forEach(item => {
-  //     if (counter >= maxSymbols) return;
-  //     if (counter + item.length >= maxSymbols) {
-  //       const leftSymbols = maxSymbols - counter - indentAsSymbols;
-  //       item = item.slice(0, leftSymbols) + dots;
-  //     };
-      
-  //     const spacesAfterParagraph = item.length % maxSymbolsPerLine || 0;
-
-  //     paragraphs.push(item);
-  //     counter += item.length;
-  //     counter += spacesAfterParagraph;
-  //     counter += indentAsSymbols;
-  //   });
-
-  //   return paragraphs;
-  // }
-
+  
   deleteLastWord(text) {
     const index = text.lastIndexOf(' ');
     text = text.slice(0, index);
