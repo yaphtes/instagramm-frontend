@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Loader from '../Loader';
 import api from '../../services/api';
 import { ArticleViewStyled } from './styled';
@@ -29,12 +29,24 @@ export default class ArticleView extends Component {
     return num;
   }
 
+  normalizeContent(content) {
+    const paragraphs = content.split('\n').filter(paragraph => Boolean(paragraph.trim().length));
+
+    return (
+      <Fragment>
+        {paragraphs.map((paragraph, i) => (
+          <div key={i} className="paragraph">{paragraph}</div>
+        ))}
+      </Fragment>
+    );
+  }
+
   render() {
     const { loaded, article, avatar } = this.state;
     
     if (article && loaded) {
       var { userId, date, content, photoCollection, _id: postId } = article;
-      console.log(article)
+      content = this.normalizeContent(content);
       date = new Date(date);
       const year = String(date.getFullYear());
       let month = this.normalizeDate(String(date.getMonth() + 1));
@@ -59,12 +71,15 @@ export default class ArticleView extends Component {
               avatar={<Avatar src={`${fileServer}/${userId}/${avatar}`} size={40} />}
               titleStyle={{ fontWeight: 700, fontSize: '16px' }}
             />
-            <CardText>{content}</CardText>
+            <CardText className="content">{content}</CardText>
             {photoCollection.length ?
-              <Gallery
-                items={photoCollection}
-                thumbnailPosition="top"
-              />
+              <div className="gallery">
+                <Gallery
+                  items={photoCollection}
+                  lazyLoad={true}
+                  showBullets={true}
+                />
+              </div>
               : null
             }
           </Card>
