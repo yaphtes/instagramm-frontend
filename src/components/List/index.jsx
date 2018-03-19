@@ -9,6 +9,7 @@ import { fileServer } from '../../variables';
 import { ListStyled } from './styled';
 import TextField from 'material-ui/TextField';
 import { accentColor } from '../vars';
+import { REMOVE_SUBSCRIPTION } from '../../variables';
 
 
 class List extends Component {
@@ -38,8 +39,14 @@ class List extends Component {
     return item.username.includes(value) || item.firstname.includes(value) || item.lastname.includes(value);
   }
 
+  handleRemoveSubscription = (id) => {
+    const { removeSubscription, user } = this.props;
+    removeSubscription(user._id, id);
+
+  }
+
   render() {
-    const { type, head, history, onRemove } = this.props;
+    const { type, head, history } = this.props;
     const { users } = this.state;
 
     return (
@@ -61,7 +68,7 @@ class List extends Component {
                 onClick={() => history.push(`/user/${id}`)}
                 rightIconButton={type === 'mySubscriptions' ?
                 <IconButton tooltip="unsubscribe"
-                  onClick={onRemove.bind(null, id)}>
+                  onClick={this.handleRemoveSubscription.bind(this, id)}>
                   <Close />
                 </IconButton> : null}
               />)
@@ -81,8 +88,17 @@ function mapStateToProps({ user }) {
 
   return {
     mySubscriptions,
-    subscribers
+    subscribers,
+    user
   };
 }
 
-export default withRouter(connect(mapStateToProps)(List));
+function mapDispatchToProps(dispatch) {
+  return {
+    removeSubscription(myId, subscriptionId) {
+      dispatch({ type: REMOVE_SUBSCRIPTION, payload: { myId, subscriptionId } });
+    }
+  };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));

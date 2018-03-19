@@ -12,6 +12,7 @@ import api from '../../services/api';
 import copy from 'copy-to-clipboard';
 import { DELETE_ARTICLE } from '../../variables';
 import { mainFont } from '../vars';
+import Toolbar from './Toolbar';
 
 class PostPreview extends Component {
   state = {
@@ -19,15 +20,16 @@ class PostPreview extends Component {
     title: '',
     content: '',
     date: '',
+    userId: '',
     loading: true
   };
 
   async componentDidMount() {
     const { postId } = this.props;
     const postPreview = await api.getPostPreviewById(postId);
-    let { preview, title, content, date } = postPreview;
+    let { preview, title, content, date, userId } = postPreview;
     if (!preview) preview = null;
-    this.setState({ preview, title, content, date, loading: false });
+    this.setState({ preview, title, content, date, userId, loading: false });
   }
 
   handleRedirectToArticleView = () => {
@@ -44,6 +46,7 @@ class PostPreview extends Component {
   handleDeleteArticle = () => {
     const { postId, user, handleDeleteArticleById } = this.props;
     const { _id: userId } = user;
+    console.log(postId, userId);
     handleDeleteArticleById({ postId, userId });
   }
   
@@ -87,9 +90,9 @@ class PostPreview extends Component {
   }
 
   render() {
-    const { user, postId } = this.props;
+    const { user, postId, myUserId } = this.props;
     const { _id: userId, avatar } = user;
-    var { title, content, preview, date, loading } = this.state;
+    var { title, content, preview, date, userId: postUserId, loading } = this.state;
     const styles = {
       cardText: {
         height: '100%',
@@ -97,7 +100,6 @@ class PostPreview extends Component {
         font: `400 16px/23px ${mainFont}`
       }
     };
-
 
     return (
       !loading ?
@@ -110,14 +112,13 @@ class PostPreview extends Component {
               targetOrigin={{horizontal: 'right', vertical: 'top'}}>
               <MenuItem onClick={this.handleCopyUrl}>Copy url</MenuItem>
               <MenuItem onClick={this.handleRedirectToArticleView}>Go to article</MenuItem>
-              <MenuItem style={{ color: 'red' }} onClick={this.handleDeleteArticle}>Remove</MenuItem>
+              {myUserId === postUserId ? <MenuItem style={{ color: 'red' }} onClick={this.handleDeleteArticle}>Remove</MenuItem> : null}
             </IconMenu>
             <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${fileServer}/${userId}/${avatar}` : null} />
             {preview ?
               <div className="content">
                 <CardMedia
-                  overlay={<CardText style={styles.cardText}>{this.normalizeContent(content)}</CardText>}
-                >
+                  overlay={<CardText style={{ color: '#fff', ...styles.cardText}}>{this.normalizeContent(content)}</CardText>}>
                   <img src={`${fileServer}/${userId}/posts/${postId}/${preview}`} alt=""/>
                 </CardMedia>  
               </div>
@@ -128,11 +129,17 @@ class PostPreview extends Component {
                 ))}</CardText>
               </div>
             }
+            <Toolbar favorited={false} likes={[]} comments={[]} date={date} />
           </Card>
         </PostPreviewStyled>
         : null
     );
   }
+}
+
+function mapStateToProps({ user }) {
+  const { _id: myUserId } = user;
+  return { myUserId };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -143,4 +150,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(PostPreview));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostPreview));

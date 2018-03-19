@@ -129,7 +129,7 @@ class Api {
 
     return fetch(request)
       .then(res => res.json())
-      .then(({ postId }) => postId)
+      .then(post => post)
       .catch(err => { throw err });
   }
 

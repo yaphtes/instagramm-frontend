@@ -38,7 +38,7 @@ export default function user(state = initialUser, { type, payload }) {
     case DELETE_ARTICLE_SUCCEEDED:
       return {
         ...state,
-        posts: state.posts.filter(item => item !== payload)
+        posts: state.posts.filter(({ _id }) => _id !== payload)
       };
 
     case POST_ARTICLE_SUCCEEDED:

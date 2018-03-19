@@ -1,32 +1,5 @@
 import styled from 'styled-components';
-import { mainColor, mainFont } from '../vars';
-import { Wrap } from '../extends';
-
-export const PostsStyled = Wrap.extend`
-  background-color: ${mainColor};
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-
-
-  .publications {
-    max-width: 614px;
-    display: flex;
-    flex-direction: column;
-    margin-right: 40px;
-    width: 100%;
-  }
-
-  .subs {
-    flex-basis: 300px;
-  }
-
-  .post {
-    width: 100%;
-    margin-bottom: 40px;
-  }
-`;
+import { mainFont } from '../vars';
 
 export const PostPreviewStyled = styled.div`
   a { text-decoration: none; display: block; }

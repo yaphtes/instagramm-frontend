@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import Modal from '../Modal';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { PUT_AVATAR, DELETE_AVATAR, fileServer } from '../../variables';
 import { accentColor } from '../vars';
 import { Hero, Avatar, Info, ModalAvatarWrap } from './styled';
 import ActionButton from 'material-ui/FloatingActionButton';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import PersonRemove from 'material-ui/svg-icons/content/clear';
+import { PUT_AVATAR, DELETE_AVATAR, fileServer, ADD_SUBSCRIPTION, REMOVE_SUBSCRIPTION } from '../../variables';
 
 
 class About extends Component {
@@ -51,13 +51,24 @@ class About extends Component {
   }
 
   onRemoveAvatar = () => {
-    const { _id: id, avatar, handleDeleteAvatar } = this.props.user;
+    const { handleDeleteAvatar } = this.props;
+    const { _id: id, avatar } = this.props.user;
     handleDeleteAvatar({ id, avatar });
+  }
+
+  handleAddSubscription = (id) => {
+    const { addSubscription, user } = this.props;
+    addSubscription(user._id, id);
+  }
+
+  handleRemoveSubscription = (id) => {
+    const { removeSubscription, user } = this.props;
+    removeSubscription(user._id, id);
   }
 
   render() {
     const { modalIsOpen } = this.state;
-    const { user, pathname, onAddSubscription, mySubscriptions, onRemoveSubscription } = this.props;
+    const { user, pathname, mySubscriptions } = this.props;
     const { username, firstname, lastname, avatar, about, _id: id } = user;
 
     return (
@@ -88,14 +99,14 @@ class About extends Component {
                 <ActionButton
                   backgroundColor={accentColor}
                   mini={true}
-                  onClick={onRemoveSubscription.bind(null, id)}>
+                  onClick={this.handleRemoveSubscription.bind(this, id)}>
                   <PersonRemove style={{ width: '22px' }} />
                 </ActionButton>
                 :
                 <ActionButton
                   backgroundColor={accentColor}
                   mini={true}
-                  onClick={onAddSubscription.bind(null, id)}>
+                  onClick={this.handleAddSubscription.bind(this, id)}>
                   <PersonAdd style={{ width: '22px' }} />
                 </ActionButton>
               : null
@@ -128,6 +139,14 @@ function mapDispatchToProps(dispatch) {
 
     handleDeleteAvatar({ id, currentAvatar }) {
       dispatch({ type: DELETE_AVATAR, payload: { id, currentAvatar }});
+    },
+
+    addSubscription(myId, subscriptionId) {
+      dispatch({ type: ADD_SUBSCRIPTION, payload: { myId, subscriptionId } });
+    },
+
+    removeSubscription(myId, subscriptionId) {
+      dispatch({ type: REMOVE_SUBSCRIPTION, payload: { myId, subscriptionId } });
     }
   };
 }

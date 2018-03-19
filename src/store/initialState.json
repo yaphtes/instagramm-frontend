@@ -7,7 +7,7 @@
     "lastname": "",
     "about": "",
     "avatar": null,
-    "posts": [],
+    "posts": [{}],
     "mySubscriptions": [{}],
     "subscribers": [{}]
   },
