@@ -12,6 +12,36 @@ class Api {
     Api.instance = this;
   }
 
+  // todo: change
+  toggleLikeArticle(postId, myId) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/user-likes`, {
+      method: 'put',
+      headers,
+      body: JSON.stringify({ postId, myId })
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(favoritedPosts => favoritedPosts)
+      .catch(err => { throw err });
+  }
+
+  getMyFeed(myId) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/feed?myId=${myId}`, {
+      method: 'get',
+      headers
+    });
+  
+    return fetch(request)
+      .then(res => res.json())
+      .then(feed => feed)
+      .catch(err => { throw err });
+  }
+
   getUserAvatarByPostId(postId) {
     const { headers } = this;
     this.withJson();
@@ -102,11 +132,11 @@ class Api {
       .catch(err => { throw err });
   }
 
-  getPostPreviewById(postId) {
+  getPostInfoById(postId) {
     const { headers } = this;
     this.withUri();
 
-    const request = new Request(`${rest}/post-preview?postId=${postId}`, {
+    const request = new Request(`${rest}/post-info-by-id?postId=${postId}`, {
       method: 'get',
       headers
     });
@@ -168,7 +198,6 @@ class Api {
   putUser(user) {
     const { headers } = this;
     this.withJson();
-    console.log(headers.get('x-jwt'));
     const request = new Request(`${rest}/user`, {
       method: 'put',
       headers,

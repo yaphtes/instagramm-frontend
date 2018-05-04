@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fileServer, localServer } from '../../variables';
+import { fileServer, localServer, rest } from '../../variables';
 import { Card, CardHeader, CardText, CardMedia } from 'material-ui/Card';
 import { withRouter } from 'react-router-dom';
 import { PostPreviewStyled } from './styled';
@@ -14,22 +14,37 @@ import { DELETE_ARTICLE } from '../../variables';
 import { mainFont } from '../vars';
 import Toolbar from './Toolbar';
 
+const styles = {
+  cardText: {
+    height: '100%',
+    textIndent: '16px',
+    font: `400 16px/23px ${mainFont}`
+  }
+};
+
 class PostPreview extends Component {
   state = {
-    preview: null,
-    title: '',
-    content: '',
-    date: '',
-    userId: '',
-    loading: true
+    loading: true,
+    isFavorited: false,
+    likes: []
   };
 
   async componentDidMount() {
-    const { postId } = this.props;
-    const postPreview = await api.getPostPreviewById(postId);
-    let { preview, title, content, date, userId } = postPreview;
-    if (!preview) preview = null;
-    this.setState({ preview, title, content, date, userId, loading: false });
+    const { postId, user } = this.props;
+    const { likes } = await api.getPostInfoById(postId);
+
+    this.setState({ likes, loading: false });
+    if (likes.includes(user._id)) this.setState({ isFavorited: true, likes });
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    const { postId, user } = nextProps;
+    const { likes } = await api.getPostInfoById(postId);
+    if (likes.includes(user._id)) {
+      this.setState({ isFavorited: true, likes });
+    } else {
+      this.setState({ isFavorited: false, likes });
+    }
   }
 
   handleRedirectToArticleView = () => {
@@ -44,9 +59,8 @@ class PostPreview extends Component {
   }
 
   handleDeleteArticle = () => {
-    const { postId, user, handleDeleteArticleById } = this.props;
-    const { _id: userId } = user;
-    console.log(postId, userId);
+    const { postId, handleDeleteArticleById, user, outerUser } = this.props;
+    const userId = !outerUser ? user._id : outerUser._id;
     handleDeleteArticleById({ postId, userId });
   }
   
@@ -89,17 +103,35 @@ class PostPreview extends Component {
     }
   }
 
+  handleToggleLike = async () => {
+    const { postId, user, outerUser } = this.props;
+    const userId = user._id;
+    const request = new Request(`${rest}/likes`, {
+      method: 'put',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-jwt': localStorage.getItem('jwt')
+      },
+      body: JSON.stringify({
+        postId,
+        myId: userId
+      })
+    });
+
+    const res = await fetch(request);
+    const { type, likes } = await res.json();
+    if (type === 'added') {
+      this.setState({ isFavorited: true, likes });
+    } else if (type === 'removed') {
+      this.setState({ isFavorited: false, likes });
+    }
+  }
+
   render() {
-    const { user, postId, myUserId } = this.props;
-    const { _id: userId, avatar } = user;
-    var { title, content, preview, date, userId: postUserId, loading } = this.state;
-    const styles = {
-      cardText: {
-        height: '100%',
-        textIndent: '16px',
-        font: `400 16px/23px ${mainFont}`
-      }
-    };
+    const { user, outerUser, postId, handleToggleLike, title, content, date, userId: postUserId, preview } = this.props;
+    const { loading, likes, isFavorited } = this.state;
+    const avatar = !outerUser ? user.avatar : outerUser.avatar;
+    const userId = !outerUser ? user._id : outerUser._id;
 
     return (
       !loading ?
@@ -112,7 +144,7 @@ class PostPreview extends Component {
               targetOrigin={{horizontal: 'right', vertical: 'top'}}>
               <MenuItem onClick={this.handleCopyUrl}>Copy url</MenuItem>
               <MenuItem onClick={this.handleRedirectToArticleView}>Go to article</MenuItem>
-              {myUserId === postUserId ? <MenuItem style={{ color: 'red' }} onClick={this.handleDeleteArticle}>Remove</MenuItem> : null}
+              {userId === postUserId ? <MenuItem style={{ color: 'red' }} onClick={this.handleDeleteArticle}>Remove</MenuItem> : null}
             </IconMenu>
             <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${fileServer}/${userId}/${avatar}` : null} />
             {preview ?
@@ -129,7 +161,7 @@ class PostPreview extends Component {
                 ))}</CardText>
               </div>
             }
-            <Toolbar favorited={false} likes={[]} comments={[]} date={date} />
+            <Toolbar favorited={isFavorited} likes={likes} comments={[]} date={date} handleToggleLike={this.handleToggleLike} />
           </Card>
         </PostPreviewStyled>
         : null
@@ -137,10 +169,9 @@ class PostPreview extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  const { _id: myUserId } = user;
-  return { myUserId };
-}
+function mapStateToProps({ user, outerUser }) {
+  return { user, outerUser };
+} 
 
 function mapDispatchToProps(dispatch) {
   return {

@@ -7,10 +7,14 @@
     "lastname": "",
     "about": "",
     "avatar": null,
-    "posts": [{}],
-    "mySubscriptions": [{}],
-    "subscribers": [{}]
+    "posts": [],
+    "mySubscriptions": [],
+    "subscribers": []
   },
 
-  "fetching": true
+  "outerUser": null,
+
+  "feed": [],
+  "feedIsIncoming": false,
+  "fetching": false
 }

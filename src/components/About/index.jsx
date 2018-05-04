@@ -56,25 +56,31 @@ class About extends Component {
     handleDeleteAvatar({ id, avatar });
   }
 
-  handleAddSubscription = (id) => {
-    const { addSubscription, user } = this.props;
-    addSubscription(user._id, id);
+  handleAddSubscription = (myId) => {
+    const { addSubscription, outerUser } = this.props;
+    addSubscription(myId, outerUser._id);
   }
 
-  handleRemoveSubscription = (id) => {
-    const { removeSubscription, user } = this.props;
-    removeSubscription(user._id, id);
+  handleRemoveSubscription = (myId) => {
+    const { removeSubscription, outerUser } = this.props;
+    removeSubscription(myId, outerUser._id);
   }
 
   render() {
     const { modalIsOpen } = this.state;
-    const { user, pathname, mySubscriptions } = this.props;
-    const { username, firstname, lastname, avatar, about, _id: id } = user;
+    const { user, outerUser, router } = this.props;
+  
+    const { pathname } = router.location;
+    const { mySubscriptions, _id: myId } = user;
+
+    if (user || outerUser) {
+      var { username, firstname, lastname, avatar, about, _id: id } = !outerUser ? user : outerUser;
+    }
 
     return (
       <Hero>
         <Avatar>
-          <button onClick={this.handleOpenModal} />
+          {!pathname.includes('/user') ? <button onClick={this.handleOpenModal} /> : null }
           {avatar ?
             <img src={`${fileServer}/${id}/${avatar}`} alt="" />
             : null
@@ -99,14 +105,14 @@ class About extends Component {
                 <ActionButton
                   backgroundColor={accentColor}
                   mini={true}
-                  onClick={this.handleRemoveSubscription.bind(this, id)}>
+                  onClick={this.handleRemoveSubscription.bind(this, myId)}>
                   <PersonRemove style={{ width: '22px' }} />
                 </ActionButton>
                 :
                 <ActionButton
                   backgroundColor={accentColor}
                   mini={true}
-                  onClick={this.handleAddSubscription.bind(this, id)}>
+                  onClick={this.handleAddSubscription.bind(this, myId)}>
                   <PersonAdd style={{ width: '22px' }} />
                 </ActionButton>
               : null
@@ -125,10 +131,8 @@ class About extends Component {
   }
 }
 
-function mapStateToProps({ router, user }) {
-  const { pathname } = router.location;
-  const { mySubscriptions } = user;
-  return { pathname, mySubscriptions };
+function mapStateToProps({ router, user, outerUser }) {
+  return { user, outerUser, router };
 }
 
 function mapDispatchToProps(dispatch) {

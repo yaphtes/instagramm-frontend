@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { GET_USER_BY_TOKEN, FETCHING } from '../variables';
-import Loader from './Loader';
 
 
 class PrivateRoute extends Component {
@@ -22,13 +21,9 @@ class PrivateRoute extends Component {
 
   render() {
     const { fetching, component: Component, ...rest } = this.props;
-
     return <Route {...rest} render={props => (
       this.token ?
-        !fetching ?
-          <Component {...props} />
-          :
-          <Loader />
+        <Component isFetching={fetching ? true : false} {...props} />
         :
         <Redirect to="/login" />
     )} />;

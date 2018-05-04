@@ -1,4 +1,24 @@
 import { takeLatest, all } from 'redux-saga/effects';
+import { fetching } from './fetching';
+import { getFeed } from './feed';
+import {
+  postUser,
+  getUser,
+  logoutUser,
+  getUserByToken,
+  putUser,
+  putAvatar,
+  deleteAvatar,
+  deleteUser,
+  addSubscription,
+  removeSubscription,
+  changeIsOuterUser
+} from'./users';
+import {
+  postArticle,
+  deleteArticle,
+  toggleLikeArticle
+} from './posts';
 import {
   POST_USER,
   GET_USER,
@@ -12,25 +32,15 @@ import {
   DELETE_USER,
   FETCHING,
   ADD_SUBSCRIPTION,
-  REMOVE_SUBSCRIPTION
+  REMOVE_SUBSCRIPTION,
+  GET_FEED,
+  GET_OUTER_USER,
+  CLEAR_OUTER_USER
 } from '../variables';
 import {
-  postUser,
-  getUser,
-  logoutUser,
-  getUserByToken,
-  putUser,
-  putAvatar,
-  deleteAvatar,
-  deleteUser,
-  addSubscription,
-  removeSubscription
-} from'./users';
-import {
-  postArticle,
-  deleteArticle
-} from './posts';
-import { fetching } from './fetching';
+  getOuterUser,
+  clearOuterUser
+} from './outerUser';
 
 
 function* watchUserSagas() {
@@ -55,10 +65,21 @@ function* watchFetchingSagas() {
   yield takeLatest(FETCHING, fetching);
 }
 
+function* watchOuterUserSagas() {
+  yield takeLatest(GET_OUTER_USER, getOuterUser);
+  yield takeLatest(CLEAR_OUTER_USER, clearOuterUser);
+}
+
+function* watchFeedSagas() {
+  yield takeLatest(GET_FEED, getFeed);
+}
+
 export default function* rootSaga() {
   yield all([
     watchUserSagas(),
     watchPostSagas(),
-    watchFetchingSagas()
+    watchFetchingSagas(),
+    watchFeedSagas(),
+    watchOuterUserSagas()
   ]);
 }

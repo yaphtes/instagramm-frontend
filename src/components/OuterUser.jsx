@@ -5,41 +5,42 @@ import About from './About';
 import Posts from './Posts';
 import Loader from './Loader';
 import api from '../services/api';
+import withSocket from '../hoc/withSocket';
+import {
+  GET_OUTER_USER,
+  CLEAR_OUTER_USER
+} from '../variables';
 
 class OuterUser extends Component {
-  state = {
-    outerUser: null,
-    loaded: false
-  }
-
-  async componentDidMount() {
-    const { match } = this.props;
+  componentDidMount() {
+    const { match, getOuterUserById } = this.props;
     const { id: outerUserId } = match.params;
-
-    const outerUser = await api.getOuterUserById(outerUserId);
-    this.setState({ outerUser, loaded: true });
+    getOuterUserById(outerUserId);
   }
 
-  async componentWillReceiveProps(nextProps) {
+
+  componentWillReceiveProps(nextProps) {
+    const { getOuterUserById, outerUser } = this.props;
     const { match } = nextProps;
     const { path } = match;
     const { id: outerUserId } = match.params;
+    
+    if (outerUser && path.startsWith('/user') && outerUser._id !== outerUserId) getOuterUserById(outerUserId);
+  }
 
-
-    if (path.startsWith('/user')) {
-      const outerUser = await api.getOuterUserById(outerUserId);
-      this.setState({ outerUser, loaded: true });
-    }
+  componentWillUnmount() {
+    const { clearOuterUser } = this.props;
+    clearOuterUser();
   }
 
   render() {
-    const { outerUser, loaded } = this.state;
+    const { isFetching } = this.props;
 
     return (
-      loaded ?
+      !isFetching ?
         <Fragment>
-          <About user={outerUser} />
-          <Posts user={outerUser} />
+          <About />
+          <Posts />
         </Fragment>
         :
         <Loader />
@@ -47,8 +48,20 @@ class OuterUser extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ outerUser }) {
+  return { outerUser };
 }
 
-export default withRouter(connect(mapStateToProps)(OuterUser));
+function mapDispatchToProps(dispatch) {
+  return {
+    getOuterUserById(outerUserId) {
+      dispatch({ type: GET_OUTER_USER, payload: outerUserId });
+    },
+
+    clearOuterUser() {
+      dispatch({ type: CLEAR_OUTER_USER });
+    }
+  };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withSocket(OuterUser)));

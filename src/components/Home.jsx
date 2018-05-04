@@ -2,18 +2,20 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import About from './About';
 import Posts from './Posts';
+import Loader from './Loader';
+import withSocket from '../hoc/withSocket';
 
-function Home({ user }) {
+function Home({ isFetching }) {
   return (
-    <Fragment>
-      <About user={user} />
-      <Posts user={user} />
-    </Fragment>
+    !isFetching ?
+      <Fragment>
+        <About />
+        <Posts />
+      </Fragment>
+      :
+      <Loader/>
   );
 }
 
-function mapStateToProps({ user }) {
-  return { user };
-}
 
-export default connect(mapStateToProps)(Home);
+export default withSocket(Home);

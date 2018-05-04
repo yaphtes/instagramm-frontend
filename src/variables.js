@@ -1,5 +1,6 @@
-export const IS_MY_USER = 'IS_MY_USER';
-export const IS_MY_USER_CHANGED = 'IS_MY_USER_CHANGED';
+export const GET_FEED = 'GET_FEED';
+export const GET_FEED_SUCCEEDED = 'GET_FEED_SUCCEEDED';
+export const GET_FEED_FAILED = 'GET_FEED_FAILED';
 
 export const POST_USER = 'POST_USER';
 export const POST_USER_SUCCEEDED = 'POST_USER_SUCCEEDED';
@@ -54,7 +55,17 @@ export const REMOVE_SUBSCRIPTION = 'REMOVE_SUBSCRIPTION';
 export const REMOVE_SUBSCRIPTION_SUCCEEDED = 'REMOVE_SUBSCRIPTION_SUCCEEDED';
 export const REMOVE_SUBSCRIPTION_FAILED = 'REMOVE_SUBSCRIPTION_FAILED';
 
+export const FEED_IS_INCOMING = 'FEED_IS_INCOMING';
+export const FEED_IS_INCOMING_CHANGED = 'FEED_IS_INCOMING_CHANGED';
 
+export const GET_OUTER_USER = 'GET_OUTER_USER';
+export const GET_OUTER_USER_SUCCEEDED = 'GET_OUTER_USER_SUCCEEDED';
+export const GET_OUTER_USER_FAILED = 'GET_OUTER_USER_FAILED';
+
+export const CLEAR_OUTER_USER = 'CLEAR_OUTER_USER';
+export const CLEAR_OUTER_USER_SUCCEEDED = 'CLEAR_OUTER_USER_SUCCEEDED';
+
+export const socketServer = 'ws://localhost:8080';
 export const rest = 'http://localhost:8000/api';
 export const fileServer = 'http://localhost:8000';
 export const localServer = 'http://localhost:3000'

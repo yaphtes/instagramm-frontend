@@ -3,6 +3,7 @@ import IconButton from 'material-ui/IconButton';
 import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Comments from 'material-ui/svg-icons/communication/message';
+import { red500 } from 'material-ui/styles/colors';
 import { ToolbarStyled } from './styled';
 
 
@@ -27,7 +28,7 @@ export default class Toolbar extends Component {
   }
 
   render() {
-    const { favorited, likes, date: ms, comments } = this.props;
+    const { favorited, likes, date: ms, comments, handleToggleLike } = this.props;
     const date = new Date(ms);
     const { hours, minutes, day, month, year } = this.normalizeDate(date);
 
@@ -38,12 +39,16 @@ export default class Toolbar extends Component {
         <div className="comments">Comments {comments.length}</div>
         <div className="top-stuffs">
           <div className="functions">
-            {favorited ?
-              <IconButton><Favorite/></IconButton>
-              :
-              <IconButton><FavoriteBorder/></IconButton>
-            }
-            <IconButton><Comments/></IconButton>
+            <IconButton onClick={handleToggleLike}>
+              {favorited ?
+                <Favorite color={red500}/>
+                :
+                <FavoriteBorder/>
+              }
+            </IconButton>
+            <IconButton>
+              <Comments/>
+            </IconButton>
           </div>
           <div className="date">{hours}:{minutes} {day}.{month}.{year}</div>
         </div>

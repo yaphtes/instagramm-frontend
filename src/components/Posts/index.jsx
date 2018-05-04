@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PostPreview from '../PostPreview';
+import { connect } from 'react-redux';
 import { PostsStyled } from './styled';
 import List from '../List';
 
-export default class Posts extends Component {
+class Posts extends Component {
   state = {
     addingIsOpen: false,
     mySubscriptions: null,
@@ -19,15 +20,16 @@ export default class Posts extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const posts = this.sortPostsByDate(user.posts);
+    const { user, outerUser } = this.props;
+    let posts = !outerUser ? user.posts : outerUser.posts;
+    if (posts && posts.length) posts = this.sortPostsByDate(posts);
 
     return (
       <PostsStyled>
         <div className="publications">
-          {posts.map(({ _id: postId }, i) =>
+          {posts.map(({ _id: postId, title, content, date, userId, preview }, i) =>
             <div key={i} className="post">
-              <PostPreview postId={postId} user={user} />
+              <PostPreview postId={postId} title={title} content={content} date={date} userId={userId} preview={preview} />
             </div>
           )}
         </div>
@@ -39,3 +41,9 @@ export default class Posts extends Component {
     );
   }
 }
+
+function mapStateToProps({ user, outerUser }) {
+  return { user, outerUser };
+}
+
+export default connect(mapStateToProps)(Posts);
