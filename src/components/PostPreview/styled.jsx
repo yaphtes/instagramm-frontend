@@ -36,6 +36,38 @@ export const ToolbarStyled = styled.div`
       font-size: 14px;
     }
   }
+
+  .bottom-stuffs {
+    padding-left: 12px;
+    padding-right: 12px;
+    font: 400 14px/1em ${mainFont};
+    .empty-comments {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .put-comments {
+      position: relative;
+      .send-input {
+        /* margin-left: 56px; */
+        /* width: calc(100% - 82px) !important; */
+        width: calc(100% - 26px) !important;
+      }
+      .send-btn {
+        position: absolute !important;
+        right: -24px;
+        bottom: 0;
+      }
+
+      .avatar {
+        position: absolute;
+        left: 0;
+        bottom: 8px;
+        border-radius: 50%;
+      }
+    }
+  }
+
   .info, .comments {
     padding-left: 12px;
     padding-right: 12px;

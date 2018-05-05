@@ -26,15 +26,16 @@ class PostPreview extends Component {
   state = {
     loading: true,
     isFavorited: false,
-    likes: []
+    likes: [],
+    commentsCount: 0
   };
 
   async componentDidMount() {
     const { postId, user } = this.props;
-    const { likes } = await api.getPostInfoById(postId);
+    const { likes, commentsCount } = await api.getPostInfoById(postId);
 
     this.setState({ likes, loading: false });
-    if (likes.includes(user._id)) this.setState({ isFavorited: true, likes });
+    if (likes.includes(user._id)) this.setState({ isFavorited: true, likes, commentsCount });
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -129,7 +130,7 @@ class PostPreview extends Component {
 
   render() {
     const { user, outerUser, postId, handleToggleLike, title, content, date, userId: postUserId, preview } = this.props;
-    const { loading, likes, isFavorited } = this.state;
+    const { loading, likes, isFavorited, comments, commentsCount } = this.state;
     const avatar = !outerUser ? user.avatar : outerUser.avatar;
     const userId = !outerUser ? user._id : outerUser._id;
 
@@ -161,7 +162,14 @@ class PostPreview extends Component {
                 ))}</CardText>
               </div>
             }
-            <Toolbar favorited={isFavorited} likes={likes} comments={[]} date={date} handleToggleLike={this.handleToggleLike} />
+            <Toolbar
+              favorited={isFavorited}
+              likes={likes}
+              commentsCount={commentsCount}
+              date={date}
+              handleToggleLike={this.handleToggleLike}
+              postId={postId}
+            />
           </Card>
         </PostPreviewStyled>
         : null

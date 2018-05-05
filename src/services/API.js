@@ -12,7 +12,41 @@ class Api {
     Api.instance = this;
   }
 
-  // todo: change
+  postComment({ comment, avatar, myId, postId, username }) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/comment`, {
+      method: 'post',
+      headers,
+      body: JSON.stringify({
+        comment,
+        avatar,
+        userId: myId,
+        postId,
+        username
+      })
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(comment => comment)
+      .catch(err => { throw err });
+  }
+
+  getPostCommentsByPostId(postId) {
+    const { headers } = this;
+    this.withUri();
+    const request = new Request(`${rest}/post-comments-by-post-id?postId=${postId}`, {
+      method: 'get',
+      headers
+    });
+
+    return fetch(request)
+      .then(res => res.json())
+      .then(comments => comments)
+      .catch(err => { throw err });
+  }
+
   toggleLikeArticle(postId, myId) {
     const { headers } = this;
     this.withJson();
