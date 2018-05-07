@@ -40,9 +40,17 @@ class Feed extends Component {
       !isFetching && feed.length ?
         <FeedStyled>
           {feedIsIncoming ? <LinearLoader style={styles.loader} /> : null}
-          {feed.map((post, i) => (
+          {feed.map(({ content, title, _id: postId, date, preview, userId, postAvatar }, i) => (
             <div className="post-container" key={i}>
-              <PostPreview postId={post._id} user={{ _id: post.userId, avatar: post.postAvatar}} />
+              <PostPreview
+                postId={postId}
+                title={title}
+                content={content}
+                date={date}
+                preview={preview}
+                userId={userId}
+                postAvatar={postAvatar}
+              />
             </div>
           ))}
         </FeedStyled>

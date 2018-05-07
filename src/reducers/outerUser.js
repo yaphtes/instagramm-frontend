@@ -1,6 +1,5 @@
 import {
   GET_OUTER_USER_SUCCEEDED,
-  GET_USER_FAILED,
   CLEAR_OUTER_USER_SUCCEEDED
 } from '../variables';
 

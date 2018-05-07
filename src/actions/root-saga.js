@@ -11,13 +11,11 @@ import {
   deleteAvatar,
   deleteUser,
   addSubscription,
-  removeSubscription,
-  changeIsOuterUser
+  removeSubscription
 } from'./users';
 import {
   postArticle,
-  deleteArticle,
-  toggleLikeArticle
+  deleteArticle
 } from './posts';
 import {
   POST_USER,

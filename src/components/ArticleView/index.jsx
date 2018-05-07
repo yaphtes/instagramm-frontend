@@ -55,7 +55,7 @@ export default class ArticleView extends Component {
       let minutes = date.getMinutes();
 
       var time = `${hours}:${minutes}`;
-      var date = `${year}.${month}.${day}`;
+      date = `${year}.${month}.${day}`;
       photoCollection = photoCollection.map(src => ({
         original: `${fileServer}/${userId}/posts/${postId}/collection/${src}`,
         thumbnail: `${fileServer}/${userId}/posts/${postId}/collection/${src}`
@@ -68,6 +68,7 @@ export default class ArticleView extends Component {
           <Card>
             <CardHeader
               title={article.title}
+              subtitle={`${date} ${time}`}
               avatar={<Avatar src={`${fileServer}/${userId}/${avatar}`} size={40} />}
               titleStyle={{ fontWeight: 700, fontSize: '16px' }}
             />

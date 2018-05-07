@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Socket from '../services/sockets';
+// import Socket from '../services/sockets';
 
 export default function withSocket(WrappedComponent) {
   return class extends Component {

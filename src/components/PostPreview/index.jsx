@@ -40,11 +40,11 @@ class PostPreview extends Component {
 
   async componentWillReceiveProps(nextProps) {
     const { postId, user } = nextProps;
-    const { likes } = await api.getPostInfoById(postId);
+    const { likes, commentsCount } = await api.getPostInfoById(postId);
     if (likes.includes(user._id)) {
-      this.setState({ isFavorited: true, likes });
+      this.setState({ isFavorited: true, likes, commentsCount });
     } else {
-      this.setState({ isFavorited: false, likes });
+      this.setState({ isFavorited: false, likes, commentsCount });
     }
   }
 
@@ -105,7 +105,7 @@ class PostPreview extends Component {
   }
 
   handleToggleLike = async () => {
-    const { postId, user, outerUser } = this.props;
+    const { postId, user } = this.props;
     const userId = user._id;
     const request = new Request(`${rest}/likes`, {
       method: 'put',
@@ -129,8 +129,8 @@ class PostPreview extends Component {
   }
 
   render() {
-    const { user, outerUser, postId, handleToggleLike, title, content, date, userId: postUserId, preview } = this.props;
-    const { loading, likes, isFavorited, comments, commentsCount } = this.state;
+    const { user, outerUser, postId, title, content, date, userId: postUserId, preview, match, postAvatar  } = this.props;
+    const { loading, likes, isFavorited, commentsCount } = this.state;
     const avatar = !outerUser ? user.avatar : outerUser.avatar;
     const userId = !outerUser ? user._id : outerUser._id;
 
@@ -145,21 +145,29 @@ class PostPreview extends Component {
               targetOrigin={{horizontal: 'right', vertical: 'top'}}>
               <MenuItem onClick={this.handleCopyUrl}>Copy url</MenuItem>
               <MenuItem onClick={this.handleRedirectToArticleView}>Go to article</MenuItem>
-              {userId === postUserId ? <MenuItem style={{ color: 'red' }} onClick={this.handleDeleteArticle}>Remove</MenuItem> : null}
+              {user._id === postUserId ? <MenuItem style={{ color: 'red' }} onClick={this.handleDeleteArticle}>Remove</MenuItem> : null}
             </IconMenu>
-            <CardHeader title={title} titleStyle={{ fontWeight: 700, fontSize: '16px' }} avatar={avatar ? `${fileServer}/${userId}/${avatar}` : null} />
+            <CardHeader
+              title={title}
+              titleStyle={{ fontWeight: 700, fontSize: '16px' }}
+              avatar={avatar ? match.path.startsWith('/feed') ? `${fileServer}/${postUserId}/${postAvatar}` : `${fileServer}/${userId}/${avatar}` : null}
+              />
             {preview ?
               <div className="content">
                 <CardMedia
-                  overlay={<CardText style={{ color: '#fff', ...styles.cardText}}>{this.normalizeContent(content)}</CardText>}>
-                  <img src={`${fileServer}/${userId}/posts/${postId}/${preview}`} alt=""/>
+                  overlay={<CardText style={{ color: '#fff', ...styles.cardText}}>{content ? this.normalizeContent(content) : null}</CardText>}>
+                  {match.path.startsWith('/feed') ?
+                    <img src={`${fileServer}/${postUserId}/posts/${postId}/${preview}`} alt=""/>
+                    :
+                    <img src={`${fileServer}/${userId}/posts/${postId}/${preview}`} alt=""/>
+                  }
                 </CardMedia>  
               </div>
               :
               <div className="content">
-                <CardText style={styles.cardText}>{this.normalizeContent(content, true).map((paragraph, i) => (
+                <CardText style={styles.cardText}>{content ? this.normalizeContent(content, true).map((paragraph, i) => (
                   <div key={i} className="paragraph">{paragraph}</div>
-                ))}</CardText>
+                )) : null}</CardText>
               </div>
             }
             <Toolbar

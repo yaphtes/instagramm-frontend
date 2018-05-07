@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
 import About from './About';
 import Posts from './Posts';
 import Loader from './Loader';

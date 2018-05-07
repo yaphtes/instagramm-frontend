@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import About from './About';
 import Posts from './Posts';
 import Loader from './Loader';
-import api from '../services/api';
 import withSocket from '../hoc/withSocket';
 import {
   GET_OUTER_USER,

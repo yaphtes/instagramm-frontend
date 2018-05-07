@@ -5,7 +5,6 @@ import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Comments from 'material-ui/svg-icons/communication/message';
 import Send from 'material-ui/svg-icons/content/send';
-import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import { List, ListItem } from 'material-ui/List';
 import { ToolbarStyled } from './styled';
@@ -40,6 +39,15 @@ class Toolbar extends Component {
     return { hours, minutes, day, month, year };
   }
 
+  async componentWillReceiveProps(nextProps) {
+    const { avatar: prevAvatar, username: prevUsername, postId } = this.props;
+    const { avatar: nextAvatar, username: nextUsername } = nextProps;
+    if (prevAvatar !== nextAvatar || prevUsername !== nextUsername) {
+      const comments = await api.getPostCommentsByPostId(postId);
+      this.setState({ comments });
+    }
+  }
+
   handleClickComments = async () => {
     const { postId } = this.props;
     const { initCommentsLoaded } = this.state;
@@ -71,10 +79,7 @@ class Toolbar extends Component {
       likes,
       date: ms,
       commentsCount,
-      handleToggleLike,
-      currentCommentInput,
-      avatar,
-      myId
+      handleToggleLike
     } = this.props;
     const { comments, commentsIsHidden } = this.state;
     const date = new Date(ms);
@@ -111,10 +116,10 @@ class Toolbar extends Component {
                     {comments.map((comment, i) => 
                       <ListItem
                         key={i}
-                        leftAvatar={<Avatar src={`${fileServer}/${comment.userId}/${comment.avatar}`} />}
+                        leftAvatar={<Avatar src={comment.avatar ? `${fileServer}/${comment.userId}/${comment.avatar}`: null} />}
                         primaryText={comment.username}
                         secondaryText={comment.comment}
-                        secondaryTextLines={2}
+                        secondaryTextLines={1}
                       />
                     )}
                   </List>
