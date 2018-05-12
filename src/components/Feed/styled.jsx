@@ -1,5 +1,8 @@
 // import styled from 'styled-components';
 import { Wrap } from '../extends';
+import { mainFont } from '../vars';
+import { grey700 } from 'material-ui/styles/colors';
+
 
 export const FeedStyled = Wrap.extend`
   padding-top: 40px;
@@ -13,5 +16,16 @@ export const FeedStyled = Wrap.extend`
     margin-bottom: 20px;
     max-width: 614px;
     width: 100%;
+  }
+`;
+
+export const EmptyStyled = Wrap.extend`
+  position: relative;
+  .text {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font: 700 20px/1em ${mainFont};
+    color: ${grey700};
   }
 `;

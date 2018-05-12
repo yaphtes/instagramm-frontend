@@ -150,8 +150,8 @@ class PostPreview extends Component {
             <CardHeader
               title={title}
               titleStyle={{ fontWeight: 700, fontSize: '16px' }}
-              avatar={avatar ? match.path.startsWith('/feed') ? `${fileServer}/${postUserId}/${postAvatar}` : `${fileServer}/${userId}/${avatar}` : null}
-              />
+              avatar={avatar ? match.path.startsWith('/feed') ? postAvatar ? `${fileServer}/${postUserId}/${postAvatar}` : null : `${fileServer}/${userId}/${avatar}` : null}
+            />
             {preview ?
               <div className="content">
                 <CardMedia

@@ -3,6 +3,7 @@ import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import Favorite from 'material-ui/svg-icons/action/favorite';
 import FavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import Delete from 'material-ui/svg-icons/content/clear';
 import Comments from 'material-ui/svg-icons/communication/message';
 import Send from 'material-ui/svg-icons/content/send';
 import TextField from 'material-ui/TextField';
@@ -65,12 +66,19 @@ class Toolbar extends Component {
     const { avatar, myId, postId, username } = this.props;
 
     const postedComment = await api.postComment({ comment, avatar, myId, postId, username });
-    this.setState(state => {
-      return {
-        comments: [...state.comments, postedComment],
-        commentsCount: state.commentsCount ? state.commentsCount + 1 : this.props.commentsCount + 1
-      };
-    });
+    this.setState(state => ({
+      comments: [...state.comments, postedComment],
+      commentsCount: state.commentsCount ? state.commentsCount + 1 : this.props.commentsCount + 1
+    }));
+  }
+
+  async handleDeleteComment(commentId) {
+    const { postId } = this.props;
+    await api.deleteComment({ commentId, postId });
+    this.setState(state => ({
+      comments: state.comments.filter(comment => comment._id !== commentId),
+      commentsCount: state.comments.length - 1
+    }));
   }
 
   render() {
@@ -79,7 +87,8 @@ class Toolbar extends Component {
       likes,
       date: ms,
       commentsCount,
-      handleToggleLike
+      handleToggleLike,
+      myId
     } = this.props;
     const { comments, commentsIsHidden } = this.state;
     const date = new Date(ms);
@@ -120,6 +129,16 @@ class Toolbar extends Component {
                         primaryText={comment.username}
                         secondaryText={comment.comment}
                         secondaryTextLines={1}
+                        rightIconButton={
+                          comment.userId === myId ?
+                            <IconButton
+                              tooltip="Delete comment"
+                              onClick={this.handleDeleteComment.bind(this, comment._id )}>
+                              <Delete />
+                            </IconButton>
+                            :
+                            null
+                        }
                       />
                     )}
                   </List>

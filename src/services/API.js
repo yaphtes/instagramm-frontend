@@ -7,9 +7,25 @@ class Api {
     if (typeof Api.instance === 'object') return Api.instance;
 
     this.headers = new Headers();
-    this.headers.append('x-jwt', localStorage.getItem('jwt'));
 
     Api.instance = this;
+  }
+
+  deleteComment({ commentId, postId }) {
+    const { headers } = this;
+    this.withJson();
+    const request = new Request(`${rest}/comment`, {
+      method: 'delete',
+      headers,
+      body: JSON.stringify({
+        commentId,
+        postId
+      })
+    });
+
+    return fetch(request)
+      .then(res => res.status)
+      .catch(err => { throw err });
   }
 
   postComment({ comment, avatar, myId, postId, username }) {
@@ -308,18 +324,22 @@ class Api {
 
   withJson() {
     this.headers.set('Content-Type', 'application/json');
+    this.headers.set('x-jwt', localStorage.getItem('jwt'));
   }
 
   withUri() {
     this.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    this.headers.set('x-jwt', localStorage.getItem('jwt'));
   }
 
   withBlob() {
     this.headers.set('Content-Type', 'application/octet-stream');
+    this.headers.set('x-jwt', localStorage.getItem('jwt'));
   }
 
   resetHeaders() {
     this.headers.delete('Content-Type');
+    this.headers.set('x-jwt', localStorage.getItem('jwt'));
   }
 }
 

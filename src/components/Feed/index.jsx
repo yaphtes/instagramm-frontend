@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
-import { FeedStyled } from './styled';
+import { FeedStyled, EmptyStyled } from './styled';
 import { connect } from 'react-redux';
 import PostPreview from '../PostPreview';
 import Loader from '../Loader';
-import LinearLoader from '../LinearLoader';
 import { GET_FEED } from '../../variables';
-
-const styles = {
-  loader: {
-    position: 'absolute',
-    top: '18px',
-    maxWidth: '48px'
-  }
-};
 
 class Feed extends Component {
   state = {
@@ -34,28 +25,32 @@ class Feed extends Component {
   }
 
   render() {
-    const { isFetching, feed, feedIsIncoming } = this.props;
+    const { isFetching, feed } = this.props;
 
     return (
-      !isFetching && feed.length ?
-        <FeedStyled>
-          {feedIsIncoming ? <LinearLoader style={styles.loader} /> : null}
-          {feed.map(({ content, title, _id: postId, date, preview, userId, postAvatar }, i) => (
-            <div className="post-container" key={i}>
-              <PostPreview
-                postId={postId}
-                title={title}
-                content={content}
-                date={date}
-                preview={preview}
-                userId={userId}
-                postAvatar={postAvatar}
-              />
-            </div>
-          ))}
-        </FeedStyled>
+      !feed.length ?
+        <EmptyStyled>
+          <div className="text">К сожалению, Ваша лента пуста :(</div>
+        </EmptyStyled>
         :
-        <Loader />
+        !isFetching ?
+          <FeedStyled>
+            {feed.map(({ content, title, _id: postId, date, preview, userId, postAvatar }, i) => (
+              <div className="post-container" key={i}>
+                <PostPreview
+                  postId={postId}
+                  title={title}
+                  content={content}
+                  date={date}
+                  preview={preview}
+                  userId={userId}
+                  postAvatar={postAvatar}
+                />
+              </div>
+            ))}
+          </FeedStyled>
+          :
+          <Loader />
     );
   }
 }

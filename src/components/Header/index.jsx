@@ -72,10 +72,10 @@ class Header extends Component {
           <div className="navigation">
             {isAuthenticated ?
                 <Fragment>
-                  <NavButton to="/" exact={true} component={Home} />
-                  <NavButton to="/editing" component={Create} />
-                  <NavButton to="/feed" component={Feed} />
-                  <NavButton to="/profile" component={Account} />
+                  <NavButton to="/" exact={true} component={Home} tooltip="Home" />
+                  <NavButton to="/editing" component={Create} tooltip="Make a post" />
+                  <NavButton to="/feed" component={Feed} tooltip="Feed" />
+                  <NavButton to="/profile" component={Account} tooltip="Profile" />
                   <FlatButton labelStyle={{ color: accentColor }} label="Log Out" onClick={handleLogout} />
                 </Fragment>
                 :

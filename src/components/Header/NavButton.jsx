@@ -30,7 +30,7 @@ const styles = {
 
 export default class NavButton extends Component {
   render() {
-    const { component: MyComponent, to, exact, children } = this.props;
+    const { component: MyComponent, to, exact, children, tooltip } = this.props;
     if (MyComponent) {
       return (
         <Route path={to} exact={exact} children={({ match }) => (
@@ -41,7 +41,8 @@ export default class NavButton extends Component {
             activeStyle={styles.linkActive}>
             <IconButton
               iconStyle={styles.icon}
-              style={styles.container}>
+              style={styles.container}
+              tooltip={tooltip}>
               <MyComponent />
             </IconButton>
           </NavLink>
