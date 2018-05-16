@@ -1,4 +1,4 @@
-import { GET_FEED_SUCCEEDED, FEED_IS_INCOMING_CHANGED } from '../variables';
+import { GET_FEED_SUCCEEDED } from '../variables';
 
 export default function feed(state = [], { type, payload }) {
   switch(type) {
@@ -7,15 +7,5 @@ export default function feed(state = [], { type, payload }) {
 
     default:
       return state;
-  }
-}
-
-export function feedIsIncoming(state = false, { type, payload }) {
-  switch(type) {
-    case FEED_IS_INCOMING_CHANGED:
-      return payload;
-    
-      default:
-        return state;
   }
 }

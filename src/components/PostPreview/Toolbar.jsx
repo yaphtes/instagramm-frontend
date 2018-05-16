@@ -93,7 +93,7 @@ class Toolbar extends Component {
     const { comments, commentsIsHidden } = this.state;
     const date = new Date(ms);
     const { hours, minutes, day, month, year } = this.normalizeDate(date);
-    const freshCommentsCount = !this.state.commentsCount ? commentsCount : this.state.commentsCount;
+    const freshCommentsCount = !this.state.commentsCount && this.state.commentsCount !== 0 ? commentsCount : this.state.commentsCount;
 
     return (
       <ToolbarStyled>

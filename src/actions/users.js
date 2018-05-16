@@ -1,11 +1,10 @@
 import { put, call } from 'redux-saga/effects';
+import { delay } from 'redux-saga'
 import { replace, push } from 'react-router-redux';
 import api from '../services/api';
 import {
   POST_USER_SUCCEEDED,
-  POST_USER_FAILED,
   GET_USER_SUCCEEDED,
-  GET_USER_FAILED,
   USER_LOGOUTED_SUCCEEDED,
   GET_USER_BY_TOKEN_SUCCEEDED,
   GET_USER_BY_TOKEN_FAILED,
@@ -21,7 +20,8 @@ import {
   ADD_SUBSCRIPTION_FAILED,
   ADD_SUBSCRIPTION_SUCCEEDED,
   REMOVE_SUBSCRIPTION_FAILED,
-  REMOVE_SUBSCRIPTION_SUCCEEDED
+  REMOVE_SUBSCRIPTION_SUCCEEDED,
+  NOTIFICATION_RECEIVED
 } from '../variables';
 
 
@@ -49,6 +49,10 @@ export function* deleteUser({ payload }) {
     yield call([api, api.deleteUser], payload);
     yield put({ type: DELETE_USER_SUCCEEDED });
     yield call([localStorage, localStorage.removeItem], 'jwt');
+    yield put(replace('/login'));
+    yield put({ type: NOTIFICATION_RECEIVED, payload: 'User deleted' });
+    yield delay(1200);
+    yield put({ type: NOTIFICATION_RECEIVED, payload: '' });
   } catch(err) {
     yield put({ type: DELETE_USER_FAILED, payload: err });
   }
@@ -59,6 +63,9 @@ export function* putUser({ payload }) {
     const user = yield call([api, api.putUser], payload);
     yield put({ type: PUT_USER_SUCCEEDED, payload: user });
     yield put(push('/'));
+    yield put({ type: NOTIFICATION_RECEIVED, payload: 'Profile saved' });
+    yield delay(1200);
+    yield put({ type: NOTIFICATION_RECEIVED, payload: '' });
   } catch (err) {
     yield put({ type: PUT_USER_FAILED, payload: err });
   }
@@ -66,16 +73,18 @@ export function* putUser({ payload }) {
 
 export function* postUser({ payload }) {
   try {
+    yield put({ type: NOTIFICATION_RECEIVED, payload: '' });
     const user = yield call([api, api.postUser], payload);
     yield call([localStorage, localStorage.setItem], 'jwt', user.hash);
     yield put({ type: POST_USER_SUCCEEDED, payload: user });
     yield put(replace('/'));
   } catch(err) {
-    yield put({ type: POST_USER_FAILED, payload: err });
+    yield put({ type: NOTIFICATION_RECEIVED, payload: err.message });
+    yield delay(1200);
+    yield put({ type: NOTIFICATION_RECEIVED, payload: '' });
   }
 }
 
-// TODO: обработать случай, когда пользователь не найден (заблокирован) на бэке
 export function* getUserByToken({ payload }) {
   try {
     yield put({ type: FETCHING, payload: true });
@@ -89,12 +98,15 @@ export function* getUserByToken({ payload }) {
 
 export function* getUser({ payload }) {
   try {
+    yield put({ type: NOTIFICATION_RECEIVED, payload: '' });
     const user = yield call([api, api.getUser], payload);
     yield call([localStorage, localStorage.setItem], 'jwt', user.hash);
     yield put({ type: GET_USER_SUCCEEDED, payload: user });
     yield put(replace('/'));
   } catch(err) {
-    yield put({ type: GET_USER_FAILED, payload: err });
+    yield put({ type: NOTIFICATION_RECEIVED, payload: err.message });
+    yield delay(1200);
+    yield put({ type: NOTIFICATION_RECEIVED, payload: '' });
   }
 }
 

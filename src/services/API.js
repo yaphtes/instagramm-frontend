@@ -255,7 +255,13 @@ class Api {
     });
 
     return fetch(request)
-      .then(res => res.json())
+      .then(res => {
+        if (res.status !== 204) {
+          return res.json();
+        } else {
+          throw new Error('username is busy');
+        }
+      })
       .then(user => user)
       .catch(err => { throw err });
   }
@@ -271,12 +277,13 @@ class Api {
 
     return fetch(request)
       .then(res => {
-        if (res.status === 200) {
+        if (res.status !== 422) {
           return res.json();
-        } else if (res.status === 422) {
-          console.log(res.statusText);
+        } else {
+          throw new Error('User already exists');
         }
-      });
+      })
+      .catch(err => { throw err });
   }
 
   getUserByToken(token) {
@@ -317,7 +324,13 @@ class Api {
     });
 
     return fetch(request)
-      .then(res => res.json())
+      .then(res => {
+        if (res.status !== 404) {
+          return res.json();
+        } else {
+          throw new Error('User not found or password is not correct');
+        }
+      })
       .then(user => user)
       .catch(err => { throw err });
   }

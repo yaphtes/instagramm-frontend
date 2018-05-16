@@ -3,6 +3,7 @@ import Router from '../Router';
 import { Content } from './styled';
 import Header from '../Header';
 import Footer from '../Footer';
+import Notifications from '../Notifications';
 import 'normalize.css';
 import './base.css';
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -16,6 +17,7 @@ export default class App extends Component {
           <Header />
           <Router />
         </Content>
+        <Notifications />
         <Footer />
       </Fragment>
     );
