@@ -23,7 +23,7 @@ class Posts extends Component {
     const { user, outerUser } = this.props;
     let posts = !outerUser ? user.posts : outerUser.posts;
     if (posts && posts.length) posts = this.sortPostsByDate(posts);
-
+    
     return (
       <PostsStyled>
         <div className="publications">

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import Favorite from 'material-ui/svg-icons/action/favorite';
@@ -81,6 +82,27 @@ class Toolbar extends Component {
     }));
   }
 
+  expandComment = (event) => {
+    const parent = event.target.closest('[data-elem=list-item]');
+
+    if (parent) {
+      const elem = parent.querySelector('div:first-child > div > div:last-child');
+      elem.style.height = 'auto';
+      elem.style.whiteSpace = 'normal';
+    }
+  };
+
+  goToUser = (userId, event) => {
+    const { history, myId } = this.props;
+    event.stopPropagation();
+
+    if (userId === myId) {
+      history.push('/');
+    } else {
+      history.push(`/user/${userId}`);
+    }
+  };
+
   render() {
     const {
       favorited,
@@ -94,7 +116,6 @@ class Toolbar extends Component {
     const date = new Date(ms);
     const { hours, minutes, day, month, year } = this.normalizeDate(date);
     const freshCommentsCount = !this.state.commentsCount && this.state.commentsCount !== 0 ? commentsCount : this.state.commentsCount;
-
     return (
       <ToolbarStyled>
         <div className="info">Likes {likes.length}</div>
@@ -122,18 +143,26 @@ class Toolbar extends Component {
                 :
                 <div className="comments-list">
                   <List>
-                    {comments.map((comment, i) => 
+                    {comments.map(({ _id: commentId, userId, comment, username, avatar }, i) => 
                       <ListItem
+                        data-elem="list-item"
+                        onClick={this.expandComment}
                         key={i}
-                        leftAvatar={<Avatar src={comment.avatar ? `${fileServer}/${comment.userId}/${comment.avatar}`: null} />}
-                        primaryText={comment.username}
-                        secondaryText={comment.comment}
+                        leftAvatar={
+                          <IconButton
+                            style={{ padding: 0, border: 0 }}
+                            tooltip="go to user">
+                            <Avatar onClick={this.goToUser.bind(this, userId)} src={avatar ? `${fileServer}/${userId}/${avatar}`: null} />
+                          </IconButton>
+                        }
+                        primaryText={username}
+                        secondaryText={comment}
                         secondaryTextLines={1}
                         rightIconButton={
-                          comment.userId === myId ?
+                          userId === myId ?
                             <IconButton
                               tooltip="Delete comment"
-                              onClick={this.handleDeleteComment.bind(this, comment._id )}>
+                              onClick={this.handleDeleteComment.bind(this, commentId )}>
                               <Delete />
                             </IconButton>
                             :
@@ -174,4 +203,4 @@ function mapStateToProps({ user }) {
   return { avatar: user.avatar, myId: user._id, username: user.username };
 }
 
-export default connect(mapStateToProps)(Toolbar);
+export default connect(mapStateToProps)(withRouter(Toolbar));

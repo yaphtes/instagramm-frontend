@@ -69,7 +69,7 @@ export default class ArticleView extends Component {
             <CardHeader
               title={article.title}
               subtitle={`${date} ${time}`}
-              avatar={<Avatar src={`${fileServer}/${userId}/${avatar}`} size={40} />}
+              avatar={<Avatar src={avatar ? `${fileServer}/${userId}/${avatar}` : null} size={40} />}
               titleStyle={{ fontWeight: 700, fontSize: '16px' }}
             />
             <CardText className="content">{content}</CardText>

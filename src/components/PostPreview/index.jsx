@@ -34,7 +34,7 @@ class PostPreview extends Component {
     const { postId, user } = this.props;
     const { likes, commentsCount } = await api.getPostInfoById(postId);
 
-    this.setState({ likes, loading: false });
+    this.setState({ likes, loading: false, commentsCount });
     if (likes.includes(user._id)) this.setState({ isFavorited: true, likes, commentsCount });
   }
 
