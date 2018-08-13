@@ -29,7 +29,14 @@ class Posts extends Component {
         <div className="publications">
           {posts.map(({ _id: postId, title, content, date, userId, preview }, i) =>
             <div key={i} className="post">
-              <PostPreview postId={postId} title={title} content={content} date={date} userId={userId} preview={preview} />
+              <PostPreview
+                postId={postId}
+                title={title}
+                content={content}
+                date={date} 
+                userId={userId}
+                preview={preview}
+              />
             </div>
           )}
         </div>
